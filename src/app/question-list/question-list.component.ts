@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { SurveyService } from './../shared/survey.service';
 
 @Component({
-  selector: 'app-question-list',
-  templateUrl: './question-list.component.html',
-  styleUrls: ['./question-list.component.scss']
+    selector: 'app-question-list',
+    templateUrl: './question-list.component.html',
+    styleUrls: ['./question-list.component.scss'],
+    providers: [ SurveyService ]
 })
 export class QuestionListComponent implements OnInit {
 
-  constructor() { }
+    survey : any;
 
-  ngOnInit() {
-  }
+    constructor( private surveyService : SurveyService ) {
+        this.survey = this.surveyService;
+    }
+
+    ngOnInit() {
+        this.survey.getResult();
+    }
 
 }

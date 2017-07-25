@@ -1,0 +1,17 @@
+@import "../../assets/mixins/global-imports";
+
+
+/* Mobile */
+@media (max-width: #{$tablet-width - 1px}) {
+
+}
+
+/* Tablet */
+@media (min-width:#{$mobile-width}) and (max-width: #{$tablet-width - 1px}) {
+
+}
+
+/* 1024px */
+@media (min-width:#{$tablet-width}) and (max-width: 1024px) {
+
+}
