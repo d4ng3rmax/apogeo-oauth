@@ -7,6 +7,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Questão</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -14,10 +15,21 @@
                 <tr *ngFor="let arr of survey.results | paginate: { itemsPerPage: 15, currentPage: p }">
                     <th scope="row">{{ arr.id }}</th>
                     <td>{{ arr.question }}</td>
-                    <td>{{ arr.active }}</td>
+                    <td>
+                        <div class="check">
+                            <input type="checkbox" name="checkbox{{ arr.id }}" id="checkbox{{ arr.id }}" class="ios-toggle" [checked]="arr.active" />
+                            <label for="checkbox{{ arr.id }}" class="checkbox-label" data-off="Desativado" data-on="Ativo"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="#edit" title="Editar" class="btn btn-primary">Editar</a>
+                        <a href="#delete" title="Excluir" class="btn btn-danger">Excluir</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
+
+        <div>- - - - - -</div>
 
         <div class="col text-center">
             <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
