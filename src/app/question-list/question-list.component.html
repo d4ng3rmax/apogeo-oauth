@@ -2,7 +2,7 @@
 
 <section>
     <div class="container-fluid">
-        <table datatable id="tblQuestions" class="table table-hover table-bordered">
+        <table datatable id="tblquestions" class="table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let arr of survey.results">
+                <tr *ngFor="let arr of survey.results | paginate: { itemsPerPage: 15, currentPage: p }">
                     <th scope="row">{{ arr.id }}</th>
                     <td>{{ arr.question }}</td>
                     <td>
@@ -29,8 +29,6 @@
             </tbody>
         </table>
         
-        <div class="col text-center">
-            <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
-        </div>
+       
     </div>
 </section>
