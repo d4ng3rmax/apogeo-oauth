@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DataTablesModule } from 'angular-datatables';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { HeaderComponent } from './header/header.component';
-import { DataTableDirective } from './shared/directives/data-table.directive';
 
 
 @NgModule({
@@ -17,14 +17,14 @@ import { DataTableDirective } from './shared/directives/data-table.directive';
         AppComponent,
         QuestionComponent,
         QuestionListComponent,
-        HeaderComponent,
-        DataTableDirective
+        HeaderComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         NgxPaginationModule,
+        DataTablesModule,
         AppRoutingModule
     ],
     providers: [],
