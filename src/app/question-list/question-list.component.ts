@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyService } from './../shared/survey.service';
+declare var $;
 
 @Component({
     selector: 'app-question-list',
@@ -17,6 +18,12 @@ export class QuestionListComponent implements OnInit {
 
     ngOnInit() {
         this.survey.getResult();
+
+        setTimeout( () => {
+            $( function() {
+                $( "#tblQuestions" ).DataTable();
+            });
+        }, 2000);
     }
 
 }
