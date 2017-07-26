@@ -9,13 +9,18 @@ export class SurveyService {
     results : Object[];
     apiRoot : string = 'https://apogeo-survey-svc.cfapps.io/questions';
     loading : boolean;
+    lastRequestCount: number = 0;
 
     constructor( private http: Http ) {
         this.results = [];
         this.loading = false;
     }
 
-    public getResult() {
+    count(): number {
+        return this.lastRequestCount;
+    }
+
+    public getResult() : Promise<any> {
 
         let promise = new Promise( ( resolve, reject ) => {
             let apiURL = `${ this.apiRoot }`;

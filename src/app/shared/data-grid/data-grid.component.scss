@@ -1,0 +1,59 @@
+@import "../../../assets/mixins/global-imports";
+
+i.fa {
+    &:before {
+        padding-right: 3px;
+    }
+
+    span {
+        font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif
+    }
+}
+
+th.ng2-smart-actions {
+    width: 210px;
+}
+
+th.ng2-smart-actions-title,
+td.ng2-smart-actions {
+    text-align: center;
+}
+
+a.ng2-smart-action {
+    @include radius(4px);
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+a.ng2-smart-action-edit-edit {
+    color: #fff !important;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+a.ng2-smart-action-delete-delete {
+    color: #fff !important;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+a.ng2-smart-action-add-create,
+a.ng2-smart-action-edit-save {
+    color: #fff !important;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+a.ng2-smart-action-add-cancel,
+a.ng2-smart-action-edit-cancel {
+    color: #333 !important;
+    background-color: #e1e1e1;
+    border-color: #ccc;
+}

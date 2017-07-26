@@ -17,7 +17,7 @@
         outline:none;
         font-family:Helvetica Neue,helvetica,arial,verdana,sans-serif;
     }
-    
+
     .ios-toggle,
     .ios-toggle:active {
         position: absolute;
@@ -28,7 +28,7 @@
         border: none;
         outline: none;
     }
-    
+
     .checkbox-label {
         display: block;
         position: relative;
@@ -44,7 +44,7 @@
         background: #f8f8f8;
         cursor: pointer;
     }
-    
+
     .checkbox-label:before {
         content: '';
         display: block;
@@ -67,7 +67,7 @@
         -moz-box-shadow: 0 3px 3px rgba(0,0,0,.2), 0 0 0 2px #dddddd;
         box-shadow: 0 3px 3px rgba(0,0,0,.2), 0 0 0 2px #dddddd;
     }
-    
+
     .checkbox-label:after {
         content: attr(data-off);
         display: block;
@@ -82,14 +82,14 @@
         color: #bfbfbf;
         white-space: nowrap;
     }
-    
+
     .ios-toggle:checked + .checkbox-label {
         /*box-shadow*/
         -webkit-box-shadow: inset 0 0 0 20px rgba(19,191,17,1), 0 0 0 2px rgba(19,191,17,1);
         -moz-box-shadow: inset 0 0 0 20px rgba(19,191,17,1), 0 0 0 2px rgba(19,191,17,1);
         box-shadow: inset 0 0 0 20px rgba(19,191,17,1), 0 0 0 2px rgba(19,191,17,1);
     }
-    
+
     .ios-toggle:checked + .checkbox-label:before {
         left: calc(100% - 36px);
         /*box-shadow*/
@@ -97,7 +97,7 @@
         -moz-box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0,0,0,.3);
         box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0,0,0,.3);
     }
-    
+
     .ios-toggle:checked + .checkbox-label:after {
         content: attr(data-on);
         left: 60px;
@@ -108,15 +108,15 @@
 
 /* Mobile */
 @media (max-width: #{$tablet-width - 1px}) {
-    
+
 }
 
 /* Tablet */
 @media (min-width:#{$mobile-width}) and (max-width: #{$tablet-width - 1px}) {
-    
+
 }
 
 /* 1024px */
 @media (min-width:#{$tablet-width}) and (max-width: 1024px) {
-    
+
 }
