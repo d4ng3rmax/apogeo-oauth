@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { SurveyService } from './../../shared/survey.service';
 import { Http } from '@angular/http';
 import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 
@@ -6,30 +7,36 @@ import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
     selector: 'data-grid',
     template: `
     <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
-    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+    <ng2-smart-table
+    [settings]="settings"
+    [source]="source"
+    (editConfirm)="onSaveConfirm($event)"></ng2-smart-table>
     `,
     styleUrls: ['./data-grid.component.scss'],
+    providers: [ SurveyService ],
     encapsulation: ViewEncapsulation.None
 })
-export class DataGridComponent implements OnInit {
+export class DataGridComponent {
+
+    survey : any;
 
     // @Input() settings : {};
     // @Input() serviceUrl : string;
     actionType: number;
     userId: number;
-    survey : any;
     //source: ServerDataSource;
     source: LocalDataSource;
     serviceUrl = 'https://apogeo-survey-svc.cfapps.io/questions';
 
-    constructor( public http: Http ) {
-        // this.source = new ServerDataSource(http, { endPoint: 'https://apogeo-survey-svc.cfapps.io/questions' });
-        this.source = new LocalDataSource( this.data );
-    }
+    constructor( public http: Http, private surveyService : SurveyService  ) {
+        this.survey = this.surveyService;
+        this.survey.getResult();
 
-    ngOnInit() {
-        //this.source = new ServerDataSource(this.http, { endPoint: this.serviceUrl });
-        //this.actionType = 0;
+        console.info( this.survey.results );
+
+        // this.source = new ServerDataSource(http, { endPoint: 'https://apogeo-survey-svc.cfapps.io/questions' });
+        // this.source = new LocalDataSource( this.data );
+        this.source = new LocalDataSource( this.survey.results );
     }
 
 
@@ -46,7 +53,7 @@ export class DataGridComponent implements OnInit {
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
         },
         delete: {
-            confirmDelete: true,
+            // confirmDelete: true,
             deleteButtonContent: '<i class="fa fa-close"><span>Excluir</span></i>',
         },
         actions: {
@@ -57,11 +64,19 @@ export class DataGridComponent implements OnInit {
             question: {
                 title: 'Perguntas',
                 editor: { type : 'textarea' },
-                width: "70%"
+                width: "70%",
+                filter: false
             },
             active: {
                 title: 'Ativo',
-                editor: { type : 'select' }
+                filter: {
+                    type: 'checkbox',
+                    config: {
+                        true: 'Yes',
+                        false: 'No',
+                        resetText: 'Limpar',
+                    },
+                },
             }
         },
     };
@@ -83,6 +98,16 @@ export class DataGridComponent implements OnInit {
                 search: query
             }
         ], false);
+    }
+
+    onSaveConfirm(event) {
+        if (window.confirm('Cerrrrteza?')) {
+            event.newData['question'] += ' + added in code';
+            event.confirm.resolve(event.newData);
+            console.info( this.source );
+        } else {
+            event.confirm.reject();
+        }
     }
 
 }
