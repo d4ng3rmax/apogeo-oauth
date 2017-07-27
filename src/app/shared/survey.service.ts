@@ -20,25 +20,33 @@ export class SurveyService {
         return this.lastRequestCount;
     }
 
-    public getResult() : Promise<any> {
+    async getResult() : Promise<any> {
 
-        let promise = new Promise( ( resolve, reject ) => {
-            let apiURL = `${ this.apiRoot }`;
-
-            this.http.get( apiURL )
-                .toPromise()
-                .then (
-                    res => {
-                        //console.info( res.json() );
-                        this.results = res.json();
-                        resolve();
-                    },
-                    msg => {
-                        reject( msg );
-                    }
-                );
-        });
-
-        return promise;
+        const response = await this.http.get( `${ this.apiRoot }` )
+            .toPromise()
+        return response.json();
     }
+
+    // public getResult() : Promise<any> {
+
+    //     let promise = new Promise( ( resolve, reject ) => {
+    //         let apiURL = `${ this.apiRoot }`;
+
+    //         this.http.get( apiURL )
+    //             .toPromise()
+    //             .then (
+    //                 res => {
+    //                     //console.info( res.json() );
+    //                     this.results = res.json();
+    //                     resolve();
+    //                 },
+    //                 msg => {
+    //                     reject( msg );
+    //                 }
+    //             );
+    //     });
+
+    //     //return promise;
+    //     return this.results;
+    // }
 }

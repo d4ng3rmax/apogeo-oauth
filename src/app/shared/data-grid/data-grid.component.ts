@@ -24,24 +24,21 @@ export class DataGridComponent implements OnInit {
     // @Input() serviceUrl : string;
     actionType: number;
     userId: number;
-    //source: ServerDataSource;
+    // source: ServerDataSource;
     source: LocalDataSource;
     serviceUrl = 'https://apogeo-survey-svc.cfapps.io/questions';
     data2 : Array<any>;
 
     constructor( public http: Http, private surveyService : SurveyService  ) {
         this.survey = this.surveyService;
-        this.survey.getResult();
-
-        // this.source = new ServerDataSource(http, { endPoint: 'https://apogeo-survey-svc.cfapps.io/questions' });
-        // this.source = new LocalDataSource( this.data );
-        this.source = new LocalDataSource( this.survey.results );
     }
 
-    ngOnInit() {
-        console.info( this.survey.results );
-    }
+    async ngOnInit() {
+        this.source = new LocalDataSource( await this.survey.getResult() );
+        // this.source = new ServerDataSource(this.http, { endPoint: await this.survey.getResult() });
+        console.info( this.source );
 
+    }
 
     settings = {
         add: {
@@ -75,8 +72,8 @@ export class DataGridComponent implements OnInit {
                 filter: {
                     type: 'checkbox',
                     config: {
-                        true: 'Yes',
-                        false: 'No',
+                        true: 'true',
+                        false: 'false',
                         resetText: 'Limpar',
                     },
                 },
@@ -84,7 +81,7 @@ export class DataGridComponent implements OnInit {
         },
     };
 
-    data = [{"id":2,"active":false,"question":"Frase 1"},{"id":12,"active":false,"question":"Frase 2"},{"id":22,"active":false,"question":"Frase 3"},{"id":32,"active":false,"question":"Frase 4"}];
+    // data = [{"id":2,"active":false,"question":"Frase 1"},{"id":12,"active":false,"question":"Frase 2"},{"id":22,"active":false,"question":"Frase 3"},{"id":32,"active":false,"question":"Frase 4"}];
 
     onSearch(query: string = '') {
         this.source.setFilter([
@@ -105,7 +102,7 @@ export class DataGridComponent implements OnInit {
 
     onSaveConfirm(event) {
         if (window.confirm('Cerrrrteza?')) {
-            event.newData['question'] += ' + added in code';
+            // event.newData['question'] += ' + added in code';
             event.confirm.resolve(event.newData);
             console.info( this.source );
         } else {
