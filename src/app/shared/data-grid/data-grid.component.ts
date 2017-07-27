@@ -1,43 +1,46 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import { SurveyService } from './../../shared/survey.service';
 import { Http } from '@angular/http';
+import { QuestionListService } from './../../shared/question-list.service';
+import { QuestionEditService } from './../question-edit.service';
 import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 
 @Component({
     selector: 'data-grid',
     template: `
-    <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
-    <ng2-smart-table
-    [settings]="settings"
-    [source]="source"
-    (editConfirm)="onSaveConfirm($event)"></ng2-smart-table>
+        <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
+        <ng2-smart-table
+        [settings]="settings"
+        [source]="source"
+        (editConfirm)="onSaveConfirm($event)"></ng2-smart-table>
     `,
     styleUrls: ['./data-grid.component.scss'],
-    providers: [ SurveyService ],
+    providers: [ QuestionListService, QuestionEditService ],
     encapsulation: ViewEncapsulation.None
 })
 export class DataGridComponent implements OnInit {
 
-    survey : any;
+    listServer : any;
+    editServer : any;
 
-    // @Input() settings : {};
-    // @Input() serviceUrl : string;
     actionType: number;
     userId: number;
     // source: ServerDataSource;
     source: LocalDataSource;
-    serviceUrl = 'https://apogeo-survey-svc.cfapps.io/questions';
+    //serviceUrl = 'https://apogeo-survey-svc.cfapps.io/questions';
     data2 : Array<any>;
 
-    constructor( public http: Http, private surveyService : SurveyService  ) {
-        this.survey = this.surveyService;
+    constructor(
+        public http: Http,
+        private questionList : QuestionListService,
+        private questionEditService : QuestionEditService
+    ) {
+        this.listServer = this.questionList;
+        this.editServer = questionEditService;
     }
 
     async ngOnInit() {
-        this.source = new LocalDataSource( await this.survey.getResult() );
-        // this.source = new ServerDataSource(this.http, { endPoint: await this.survey.getResult() });
-        console.info( this.source );
-
+        this.source = new LocalDataSource( await this.listServer.getResult() );
+        // this.source = new ServerDataSource(this.http, { endPoint: await this.listSerever.getResult() });
     }
 
     settings = {
@@ -81,8 +84,6 @@ export class DataGridComponent implements OnInit {
         },
     };
 
-    // data = [{"id":2,"active":false,"question":"Frase 1"},{"id":12,"active":false,"question":"Frase 2"},{"id":22,"active":false,"question":"Frase 3"},{"id":32,"active":false,"question":"Frase 4"}];
-
     onSearch(query: string = '') {
         this.source.setFilter([
             {
@@ -101,10 +102,10 @@ export class DataGridComponent implements OnInit {
     }
 
     onSaveConfirm(event) {
-        if (window.confirm('Cerrrrteza?')) {
+        if (window.confirm('Confirme a atualização dessa frase?')) {
             // event.newData['question'] += ' + added in code';
+            let editService = this.editServer.getResult( event.newData['id'], event.newData );
             event.confirm.resolve(event.newData);
-            console.info( this.source );
         } else {
             event.confirm.reject();
         }
