@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { SurveyService } from './../../shared/survey.service';
 import { Http } from '@angular/http';
 import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
@@ -16,7 +16,7 @@ import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
     providers: [ SurveyService ],
     encapsulation: ViewEncapsulation.None
 })
-export class DataGridComponent {
+export class DataGridComponent implements OnInit {
 
     survey : any;
 
@@ -27,16 +27,19 @@ export class DataGridComponent {
     //source: ServerDataSource;
     source: LocalDataSource;
     serviceUrl = 'https://apogeo-survey-svc.cfapps.io/questions';
+    data2 : Array<any>;
 
     constructor( public http: Http, private surveyService : SurveyService  ) {
         this.survey = this.surveyService;
         this.survey.getResult();
 
-        console.info( this.survey.results );
-
         // this.source = new ServerDataSource(http, { endPoint: 'https://apogeo-survey-svc.cfapps.io/questions' });
         // this.source = new LocalDataSource( this.data );
         this.source = new LocalDataSource( this.survey.results );
+    }
+
+    ngOnInit() {
+        console.info( this.survey.results );
     }
 
 
