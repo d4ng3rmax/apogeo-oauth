@@ -11,6 +11,7 @@ import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { HeaderComponent } from './header/header.component';
 import { DataGridComponent } from './shared/data-grid/data-grid.component';
+import { PagesComponent } from './pages/pages.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { DataGridComponent } from './shared/data-grid/data-grid.component';
         QuestionComponent,
         QuestionListComponent,
         HeaderComponent,
-        DataGridComponent
+        DataGridComponent,
+        PagesComponent
     ],
     imports: [
         BrowserModule,

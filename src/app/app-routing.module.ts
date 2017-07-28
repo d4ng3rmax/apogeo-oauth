@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question-list/question-list.component';
+import { PagesComponent } from './pages/pages.component';
 
 const routes: Routes = [
     {
@@ -20,6 +21,10 @@ const routes: Routes = [
             {
                 path: 'question/:id',
                 component: QuestionComponent,
+            },
+            {
+                path: 'pages',
+                component: PagesComponent,
             }
         ]
     }

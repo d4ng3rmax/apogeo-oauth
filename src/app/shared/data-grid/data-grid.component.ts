@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
 import { QuestionListService } from './../../shared/question-list.service';
 import { QuestionEditService } from './../question-edit.service';
-import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
     selector: 'data-grid',
@@ -21,13 +21,7 @@ export class DataGridComponent implements OnInit {
 
     listServer : any;
     editServer : any;
-
-    actionType: number;
-    userId: number;
-    // source: ServerDataSource;
     source: LocalDataSource;
-    //serviceUrl = 'https://apogeo-survey-svc.cfapps.io/questions';
-    data2 : Array<any>;
 
     constructor(
         public http: Http,
@@ -40,7 +34,6 @@ export class DataGridComponent implements OnInit {
 
     async ngOnInit() {
         this.source = new LocalDataSource( await this.listServer.getResult() );
-        // this.source = new ServerDataSource(this.http, { endPoint: await this.listSerever.getResult() });
     }
 
     settings = {
