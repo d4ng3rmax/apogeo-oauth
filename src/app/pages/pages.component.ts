@@ -20,7 +20,6 @@ export class PagesComponent implements OnInit {
 
     async ngOnInit() {
         this.avaliableItems = await this.listService.getResult();
-        console.info( this.avaliableItems );
     }
 
     moveItem = ( item, from, to ) : void => {

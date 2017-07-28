@@ -7,25 +7,18 @@
 
             <div class="col">
                 <div class="form-group">
-                    <label for="sel-multi1">Perguntas disponíveis:</label>
-                    <select multiple="multiple" id="sel-multi1" class="form-control sel-multiple">
-                        <option value="1">Frase 1</option>
-                        <option value="2">Frase 2</option>
-                        <option value="3">Frase 3</option>
-                        <option value="4">Frase 4</option>
-                        <option value="5">Frase 5</option>
-                        <option value="6">Frase 6</option>
-                        <option value="7">Frase 7</option>
-                        <option value="8">Frase 8</option>
-                        <option value="9">Frase 9</option>
-                        <option value="10">Frase 10</option>
+                    <label for="sel-avaliable">Perguntas disponíveis:</label>
+                    <select multiple="multiple" #selAvaliable id="sel-avaliable" class="form-control sel-multiple">
+                        <option *ngFor="let item of avaliableItems" [value]="item.id">
+                            {{ item.question }}
+                        </option>
                     </select>
                 </div>
             </div>
 
             <div class="col-1 align-self-center">
                 <div class="col-12 d-flex justify-content-center">
-                    <button class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                    <button (click)="moveItem( selAvaliable[0], avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
@@ -43,8 +36,8 @@
 
             <div class="col">
                 <div class="form-group">
-                    <label for="sel-multi2">Questões inseridas:</label>
-                    <select multiple="multiple" id="sel-multi2" class="form-control sel-multiple">
+                    <label for="sel-selected">Questões inseridas:</label>
+                    <select multiple="multiple" id="sel-selected" class="form-control sel-multiple">
 
                     </select>
                 </div>
@@ -72,3 +65,10 @@
     </div>
 
 </section>
+
+{{ selAvaliable.options }}
+<!--
+<input id="moveright" type="button" value="Add Client" ng-click="moveItem(available[0], availableclients,selectedclients)" />
+<input id="moverightall" type="button" value="Add All Clients" ng-click="moveAll(availableclients,selectedclients)" />
+<input id="move left" type="button" value="Remove Client" ng-click="moveItem(selected[0], selectedclients,availableclients)" />
+<input id="moveleftall" type="button" value="Remove All Clients" ng-click="moveAll(selectedclients,availableclients)" /> -->
