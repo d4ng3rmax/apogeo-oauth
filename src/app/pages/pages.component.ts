@@ -23,16 +23,28 @@ export class PagesComponent implements OnInit {
     }
 
     moveItem = ( item, from, to ) : void => {
-        //console.info('Item: '+item+' From: '+from+' To: '+to);
+
         console.info( item );
         console.info( this.avaliableItems );
         console.info( this.selectedItems );
-        let idx = from.indexOf( item );
 
-        if ( idx != 1 ) {
-            from.splice( idx, 1 );
-            to.push( item );
-        }
+        let idx;
+
+        item.options.forEach(el => {
+            if ( el.selectedIndex == 1 ) {
+                from.splice( idx, 1 );
+                to.push( item );
+            }
+
+            idx = from.indexOf( item );
+
+            if ( idx != 1 ) {
+                from.splice( idx, 1 );
+                to.push( item );
+            }
+        });
+
+
     }
 
     moveAll = ( from, to ) : void => {
