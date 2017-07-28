@@ -18,11 +18,11 @@
 
             <div class="col-1 align-self-center">
                 <div class="col-12 d-flex justify-content-center">
-                    <button (click)="moveItem( selAvaliable[0], avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                    <button (click)="moveItem( selAvaliable.options, avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
-                    <button class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                    <button (click)="moveItem( selAvaliable[0], avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
@@ -38,7 +38,9 @@
                 <div class="form-group">
                     <label for="sel-selected">Questões inseridas:</label>
                     <select multiple="multiple" id="sel-selected" class="form-control sel-multiple">
-
+                        <option *ngFor="let item of selectedItems" [value]="item.id">
+                            {{ item.question }}
+                        </option>
                     </select>
                 </div>
             </div>

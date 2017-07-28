@@ -23,7 +23,10 @@ export class PagesComponent implements OnInit {
     }
 
     moveItem = ( item, from, to ) : void => {
-        console.info('Item: '+item+' From: '+from+' To: '+to);
+        //console.info('Item: '+item+' From: '+from+' To: '+to);
+        console.info( item );
+        console.info( this.avaliableItems );
+        console.info( this.selectedItems );
         let idx = from.indexOf( item );
 
         if ( idx != 1 ) {
