@@ -8,7 +8,7 @@
             <div class="col-2 box-filter">
                 <h4 class="text-info">Filtro das questões</h4>
                 <br />
-                <form name="frmQuestion">
+                <form #frmQuestion name="frmQuestion">
                     <label for="xxx">Busca geral:</label>
                     <input #search type="text" placeholder="Buscar em todos por..." (keydown.enter)="onSearch(search.value)" class="form-control" />
                     <br />
@@ -29,7 +29,8 @@
                     </div>
                     <br />
                     <div class="d-flex justify-content-center">
-                        <button class="btn btn-success">Filtrar</button>
+                        <button (click)="clearFilter( frmQuestion )" class="btn btn-danger">Limpar</button>
+                        <button (click)="onSearch(search.value)" class="btn btn-success mg-left">Filtrar</button>
                     </div>
                 </form>
             </div>

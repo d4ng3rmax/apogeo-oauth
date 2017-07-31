@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
+import { DataGridComponent } from './../shared/data-grid/data-grid.component';
 import { Subject } from 'rxjs/Rx';
 
 @Component({
@@ -8,10 +9,17 @@ import { Subject } from 'rxjs/Rx';
 })
 export class QuestionListComponent implements OnInit {
 
-    constructor() {
+    @ViewChild(DataGridComponent) dataGrid : DataGridComponent;
+
+    constructor() {}
+    ngOnInit() {}
+
+    public onSearch = ( value ) : void => {
+        this.dataGrid.onSearch( value );
     }
 
-    ngOnInit() {
+    public clearFilter = ( search ) : void => {
+        this.dataGrid.clearFilter();
+        search.reset();
     }
-
 }

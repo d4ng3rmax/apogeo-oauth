@@ -7,7 +7,6 @@ import { LocalDataSource } from 'ng2-smart-table';
 @Component({
     selector: 'data-grid',
     template: `
-    <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
     <ng2-smart-table
     [settings]="settings"
     [source]="source"
@@ -92,6 +91,9 @@ export class DataGridComponent implements OnInit {
     };
 
     onSearch( query: string = '' ) {
+
+        query = ( query == '' ) ? ' ' : query;
+
         this.source.setFilter([
             {
                 field: 'id',
@@ -106,6 +108,10 @@ export class DataGridComponent implements OnInit {
                 search: query
             }
         ], false);
+    }
+
+    clearFilter =(): void => {
+        this.source.reset();
     }
 
     onCreateConfirm( event ) {
