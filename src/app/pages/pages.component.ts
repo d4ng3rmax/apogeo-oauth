@@ -24,68 +24,51 @@ export class PagesComponent implements OnInit {
         this.avaliableItems = await this.listService.getResult();
     }
 
-    moveItem = ( item, from, to ) : void => {
+    moveItem = ( originSelect, from, to ) : void => {
+        for ( let i = originSelect.length - 1; i >= 0; i-- ) {
 
-        for ( let i = 0; i < item.length; i++ ) {
-            if ( item[ i ].selected == true ) {
-                let arr = new Question(
-                    item[ i ].value,
-                    item[ i ].text
+            if ( originSelect[ i ].selected == true ) {
+
+                let question = new Question(
+                    originSelect[ i ].value,
+                    originSelect[ i ].text
                 );
-                console.info( "--->" );
-                console.info( item.selectedIndex );
-                item.remove( item.selectedIndex );
 
-                from.map(el => {
-                    
-                    if ( el.id == item[ i ].value ) {
-                        //console.info( el.id );
-                        //from.splice( item[ i ], 1 );
-                        //el.remove(  )
-                        //console.info( from );
-                    }
-                });
-                //console.info( this.avaliableItems );
-                to.push( arr );
+                to.push( question );
+                originSelect[i].remove();
             }
         }
-        // console.info( "-----" );
-        // console.info( this.selectedItems );
 
-
-        
-
-
-        //console.info( item );
-        // console.info( this.avaliableItems );
-        // console.info( this.selectedItems );
-
-        
-
-        // item.options.forEach(el => {
-        //     if ( el.selectedIndex == 1 ) {
-        //         from.splice( idx, 1 );
-        //         to.push( item );
-        //     }
-
-        //     idx = from.indexOf( item );
-
-        //     if ( idx != 1 ) {
-        //         from.splice( idx, 1 );
-        //         to.push( item );
-        //     }
-        // });
-
-
+        from.map( elFrom => {
+            to.map( elTo => {
+                if ( elTo.id == elFrom.id )
+                    from.splice( from.indexOf( elFrom ), 1 );
+            });
+        });
     }
 
     moveAll = ( from, to ) : void => {
-        console.info('Move all  From:: '+from+' To:: '+to);
-
         from.forEach(el => {
             to.push( el );
         });
 
         from.length = 0;
+    }
+
+    moveUp = ( select, arrSelected ) : void => {
+
+        for ( let i = select.length - 1; i >= 0; i-- ) {
+            if ( select[ i ].selected == true ) {
+                if ( i > 0 ) {
+                    let selectedItem = arrSelected.splice( i, 1 );
+                    arrSelected.splice( i - 1, 0, selectedItem[0] );
+                }
+            }
+        }
+    }
+
+    moveDown = ( select ) : void => {
+        let countOptions = select.options.length;
+
     }
 }

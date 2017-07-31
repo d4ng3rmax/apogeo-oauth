@@ -18,26 +18,26 @@
 
             <div class="col-1 align-self-center">
                 <div class="col-12 d-flex justify-content-center">
-                    <button (click)="moveItem( selAvaliable, avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                    <button (click)="moveAll( avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
-                    <button (click)="moveItem( selAvaliable[0], avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                    <button (click)="moveItem( selAvaliable, avaliableItems, selectedItems )" class="btn btn-primary"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
-                    <button class="btn btn-danger"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                    <button (click)="moveItem( selSelected, selectedItems, avaliableItems )" class="btn btn-danger"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
-                    <button class="btn btn-danger"><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                    <button (click)="moveAll( selectedItems, avaliableItems )" class="btn btn-danger"><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label for="sel-selected">Questões inseridas:</label>
-                    <select multiple="multiple" id="sel-selected" class="form-control sel-multiple">
+                    <select multiple="multiple" #selSelected id="sel-selected" class="form-control sel-multiple">
                         <option *ngFor="let item of selectedItems" [value]="item.id">
                             {{ item.question }}
                         </option>
@@ -47,7 +47,7 @@
 
             <div class="col-1 align-self-center">
                 <div class="col-12 d-flex justify-content-center">
-                    <button class="btn btn-default"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                    <button (click)="moveUp( selSelected, selectedItems )" class="btn btn-default"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
