@@ -47,19 +47,19 @@
 
             <div class="col-1 align-self-center">
                 <div class="col-12 d-flex justify-content-center">
-                    <button (click)="moveUp( selSelected, selectedItems )" class="btn btn-default"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                    <button (click)="moveTop( selSelected, selectedItems )" class="btn btn-default"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
-                    <button class="btn btn-default"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+                    <button (click)="moveUp( selSelected, selectedItems )" class="btn btn-default"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
-                    <button class="btn btn-default"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
+                    <button (click)="moveDown( selSelected, selectedItems )" class="btn btn-default"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center mg-top-1">
-                    <button class="btn btn-default"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                    <button (click)="moveBottom( selSelected, selectedItems )" class="btn btn-default"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
                 </div>
             </div>
 
@@ -68,7 +68,6 @@
 
 </section>
 
-{{ selAvaliable.options }}
 <!--
 <input id="moveright" type="button" value="Add Client" ng-click="moveItem(available[0], availableclients,selectedclients)" />
 <input id="moverightall" type="button" value="Add All Clients" ng-click="moveAll(availableclients,selectedclients)" />

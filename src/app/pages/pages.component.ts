@@ -61,14 +61,43 @@ export class PagesComponent implements OnInit {
             if ( select[ i ].selected == true ) {
                 if ( i > 0 ) {
                     let selectedItem = arrSelected.splice( i, 1 );
-                    arrSelected.splice( i - 1, 0, selectedItem[0] );
+                    arrSelected.splice( i - 1, 0, selectedItem[ 0 ] );
                 }
             }
         }
     }
 
-    moveDown = ( select ) : void => {
-        let countOptions = select.options.length;
+    moveTop = ( select, arrSelected ) : void => {
 
+        for ( let i = select.length - 1; i >= 0; i-- ) {
+            if ( select[ i ].selected == true ) {
+                let selectedItem = arrSelected.splice( i, 1 );
+                arrSelected.splice( 0, 0, selectedItem[ 0 ] );
+            }
+        }
+    }
+
+    moveDown = ( select, arrSelected ) : void => {
+        let selectCount = select.length;
+
+        for ( let i = 0; i < select.length; i++ ) {
+            if ( select[ i ].selected == true ) {
+                if ( i < selectCount ) {
+                    let selectedItem = arrSelected.splice( i, 1 );
+                    arrSelected.splice( i + 1, 0, selectedItem[ 0 ] );
+                }
+            }
+        }
+    }
+
+    moveBottom = ( select, arrSelected ) : void => {
+        let selectCount = select.length;
+
+        for ( let i = select.length - 1; i >= 0; i-- ) {
+            if ( select[ i ].selected == true ) {
+                let selectedItem = arrSelected.splice( i, 1 );
+                arrSelected.splice( selectCount, 0, selectedItem[ 0 ] );
+            }
+        }
     }
 }
