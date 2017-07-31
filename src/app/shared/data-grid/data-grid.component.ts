@@ -6,8 +6,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
     selector: 'data-grid',
-    template: `
-    <ng2-smart-table
+    template: `<ng2-smart-table
     [settings]="settings"
     [source]="source"
     (createConfirm)="onCreateConfirm($event)"

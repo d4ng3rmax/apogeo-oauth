@@ -1,5 +1,9 @@
 @import "../../../assets/mixins/global-imports";
 
+.table-bordered {
+    border: 0 none;
+}
+
 i.fa {
     &:before {
         padding-right: 3px;
