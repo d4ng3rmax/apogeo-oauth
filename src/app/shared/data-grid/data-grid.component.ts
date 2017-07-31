@@ -1,35 +1,37 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
 import { QuestionListService } from './../../shared/question-list.service';
-import { QuestionEditService } from './../question-edit.service';
+import { QuestionPersistService } from './../question-persist.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
     selector: 'data-grid',
     template: `
-        <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
-        <ng2-smart-table
-        [settings]="settings"
-        [source]="source"
-        (editConfirm)="onSaveConfirm($event)"></ng2-smart-table>
+    <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
+    <ng2-smart-table
+    [settings]="settings"
+    [source]="source"
+    (createConfirm)="onCreateConfirm($event)"
+    (editConfirm)="onSaveConfirm($event)"
+    (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
     `,
     styleUrls: ['./data-grid.component.scss'],
-    providers: [ QuestionListService, QuestionEditService ],
+    providers: [ QuestionListService, QuestionPersistService ],
     encapsulation: ViewEncapsulation.None
 })
 export class DataGridComponent implements OnInit {
 
     listServer : any;
-    editServer : any;
+    persistServer : any;
     source: LocalDataSource;
 
     constructor(
         public http: Http,
         private questionList : QuestionListService,
-        private questionEditService : QuestionEditService
+        private questionPersistService : QuestionPersistService
     ) {
         this.listServer = this.questionList;
-        this.editServer = questionEditService;
+        this.persistServer = questionPersistService;
     }
 
     async ngOnInit() {
@@ -38,6 +40,7 @@ export class DataGridComponent implements OnInit {
 
     settings = {
         add: {
+            confirmCreate: true,
             addButtonContent: '<i class="fa fa-plus"><span>Adicionar Pergunta</span></i>',
             createButtonContent: '<i class="fa fa-check"><span>Criar</span></i>',
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
@@ -49,7 +52,7 @@ export class DataGridComponent implements OnInit {
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
         },
         delete: {
-            // confirmDelete: true,
+            confirmDelete: true,
             deleteButtonContent: '<i class="fa fa-close"><span>Excluir</span></i>',
         },
         actions: {
@@ -59,12 +62,23 @@ export class DataGridComponent implements OnInit {
         columns: {
             question: {
                 title: 'Perguntas',
-                editor: { type : 'textarea' },
+                editor: {
+                    type : 'textarea' },
                 width: "70%",
                 filter: false
             },
             active: {
                 title: 'Ativo',
+                class: 'xxxx',
+                editor: {
+                    type: 'list',
+                    config: {
+                        list: [
+                            { title: 'Ativo', value: true },
+                            { title: 'Desativado', value: false }
+                        ]
+                    }
+                },
                 filter: {
                     type: 'checkbox',
                     config: {
@@ -77,7 +91,7 @@ export class DataGridComponent implements OnInit {
         },
     };
 
-    onSearch(query: string = '') {
+    onSearch( query: string = '' ) {
         this.source.setFilter([
             {
                 field: 'id',
@@ -94,11 +108,30 @@ export class DataGridComponent implements OnInit {
         ], false);
     }
 
-    onSaveConfirm(event) {
-        if (window.confirm('Confirme a atualização dessa frase?')) {
-            // event.newData['question'] += ' + added in code';
-            let editService = this.editServer.getResult( event.newData['id'], event.newData );
-            event.confirm.resolve(event.newData);
+    onCreateConfirm( event ) {
+        if ( window.confirm( 'Are you sure you want to create?' ) ) {
+            // event.newData['name'] += ' + added in code';
+            event.newData['active'] = ( event.newData['active'] == "" ) ? true : event.newData['active'];
+            let editService = this.persistServer.updateData( 1, event.newData );
+            event.confirm.resolve( event.newData );
+        } else {
+            event.confirm.reject();
+        }
+    }
+
+    onSaveConfirm( event ) {
+        if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
+            let createService = this.persistServer.createData( event.newData['id'], event.newData );
+            event.confirm.resolve( event.newData );
+        } else {
+            event.confirm.reject();
+        }
+    }
+
+    onDeleteConfirm( event ) {
+        if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
+            let createService = this.persistServer.deleteData( event.data['id'] );
+            event.confirm.resolve();
         } else {
             event.confirm.reject();
         }
