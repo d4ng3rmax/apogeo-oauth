@@ -1,6 +1,7 @@
 import { QuestionListComponent } from './../question-list/question-list.component';
 import { Component, OnInit } from '@angular/core';
 import { QuestionListService } from './../shared/question-list.service';
+import { Question } from './../question/question.model';
 
 @Component({
     selector: 'app-pages',
@@ -13,6 +14,7 @@ export class PagesComponent implements OnInit {
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     listService : any;
+    items : Question;
 
     constructor( private questionListService : QuestionListService ) {
         this.listService = this.questionListService;
@@ -24,25 +26,55 @@ export class PagesComponent implements OnInit {
 
     moveItem = ( item, from, to ) : void => {
 
-        console.info( item );
-        console.info( this.avaliableItems );
-        console.info( this.selectedItems );
+        for ( let i = 0; i < item.length; i++ ) {
+            if ( item[ i ].selected == true ) {
+                let arr = new Question(
+                    item[ i ].value,
+                    item[ i ].text
+                );
+                console.info( "--->" );
+                console.info( item.selectedIndex );
+                item.remove( item.selectedIndex );
 
-        let idx;
-
-        item.options.forEach(el => {
-            if ( el.selectedIndex == 1 ) {
-                from.splice( idx, 1 );
-                to.push( item );
+                from.map(el => {
+                    
+                    if ( el.id == item[ i ].value ) {
+                        //console.info( el.id );
+                        //from.splice( item[ i ], 1 );
+                        //el.remove(  )
+                        //console.info( from );
+                    }
+                });
+                //console.info( this.avaliableItems );
+                to.push( arr );
             }
+        }
+        // console.info( "-----" );
+        // console.info( this.selectedItems );
 
-            idx = from.indexOf( item );
 
-            if ( idx != 1 ) {
-                from.splice( idx, 1 );
-                to.push( item );
-            }
-        });
+        
+
+
+        //console.info( item );
+        // console.info( this.avaliableItems );
+        // console.info( this.selectedItems );
+
+        
+
+        // item.options.forEach(el => {
+        //     if ( el.selectedIndex == 1 ) {
+        //         from.splice( idx, 1 );
+        //         to.push( item );
+        //     }
+
+        //     idx = from.indexOf( item );
+
+        //     if ( idx != 1 ) {
+        //         from.splice( idx, 1 );
+        //         to.push( item );
+        //     }
+        // });
 
 
     }
