@@ -2,9 +2,20 @@
 
 <section>
     <div class="container-fluid">
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                </div>
+            </div>
+        </div>
 
         <div class="row no-mg">
-
+            
             <div class="col-2 box-filter">
                 <h4 class="text-info">Filtro das questões</h4>
                 <br />
@@ -21,7 +32,7 @@
                             <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked />
                             Ativo
                         </label>
-
+                        
                         <label class="form-check-label">
                             <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" />
                             Inativo
@@ -29,16 +40,16 @@
                     </div>
                     <br />
                     <div class="d-flex justify-content-center">
-                        <button (click)="clearFilter( frmQuestion )" class="btn btn-danger">Limpar</button>
+                        <button (click)="clearFilter( frmQuestion )" class="btn btn-default">Limpar</button>
                         <button (click)="onSearch(search.value)" class="btn btn-success mg-left">Filtrar</button>
                     </div>
                 </form>
             </div>
-
-            <div class="col">
+            
+            <div class="col no-pd-right">
                 <data-grid class="table table-hover table-bordered"></data-grid>
             </div>
         </div>
     </div>
-
+    
 </section>
