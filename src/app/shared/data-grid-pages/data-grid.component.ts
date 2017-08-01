@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
-import { QuestionListService } from './../question-list.service';
-import { QuestionPersistService } from './../question-persist.service';
+import { PagesListService } from './../pages-list.service';
+import { PagesPersistService } from './../pages-persist.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
-    selector: 'data-grid',
+    selector: 'data-grid-pages',
     template: `<ng2-smart-table
     [settings]="settings"
     [source]="source"
@@ -13,11 +13,11 @@ import { LocalDataSource } from 'ng2-smart-table';
     (editConfirm)="onSaveConfirm($event)"
     (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
     `,
-    styleUrls: ['./data-grid.component.scss'],
-    providers: [ QuestionListService, QuestionPersistService ],
+    styleUrls: ['./../data-grid/data-grid.component.scss'],
+    providers: [ PagesListService, PagesPersistService ],
     encapsulation: ViewEncapsulation.None
 })
-export class DataGridComponent implements OnInit {
+export class DataGridPagesComponent implements OnInit {
 
     listServer : any;
     persistServer : any;
@@ -25,8 +25,8 @@ export class DataGridComponent implements OnInit {
 
     constructor(
         public http: Http,
-        private questionList : QuestionListService,
-        private questionPersistService : QuestionPersistService
+        private questionList : PagesListService,
+        private questionPersistService : PagesPersistService
     ) {
         this.listServer = this.questionList;
         this.persistServer = questionPersistService;
@@ -39,7 +39,7 @@ export class DataGridComponent implements OnInit {
     settings = {
         add: {
             confirmCreate: true,
-            addButtonContent: '<i class="fa fa-plus"><span>Adicionar Pergunta</span></i>',
+            addButtonContent: '<i class="fa fa-plus"><span>Adicionar Página</span></i>',
             createButtonContent: '<i class="fa fa-check"><span>Criar</span></i>',
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
         },
@@ -58,8 +58,8 @@ export class DataGridComponent implements OnInit {
             width: '200px'
         },
         columns: {
-            question: {
-                title: 'Perguntas',
+            title: {
+                title: 'Páginas',
                 editor: {
                     type : 'textarea' },
                 width: "70%",
@@ -117,8 +117,10 @@ export class DataGridComponent implements OnInit {
         if ( window.confirm( 'Are you sure you want to create?' ) ) {
             // event.newData['name'] += ' + added in code';
             event.newData['active'] = ( event.newData['active'] == "" ) ? true : event.newData['active'];
-            let editService = this.persistServer.updateData( 1, event.newData );
+
+            this.persistServer.updateData( 1, event.newData );
             event.confirm.resolve( event.newData );
+
         } else {
             event.confirm.reject();
         }

@@ -1,17 +1,17 @@
 import { Component, ViewChild, Input, OnInit } from '@angular/core';
-import { DataGridComponent } from './../shared/data-grid/data-grid.component';
+import { DataGridPagesComponent } from './../shared/data-grid-pages/data-grid.component';
 import { Subject } from 'rxjs/Rx';
 
 @Component({
-    selector: 'app-question-list',
-    templateUrl: './question-list.component.html',
+    selector: 'app-pages-list',
+    templateUrl: './pages-list.component.html',
     styleUrls: ['./../shared/data-grid/data-grid.component.scss']
 })
-export class QuestionListComponent implements OnInit {
+export class PagesListComponent implements OnInit {
 
-    @ViewChild(DataGridComponent) dataGrid : DataGridComponent;
+    @ViewChild(DataGridPagesComponent) dataGrid : DataGridPagesComponent;
 
-    constructor() {}
+    constructor() { }
     ngOnInit() {}
 
     public onSearch = ( value ) : void => {
@@ -22,4 +22,5 @@ export class QuestionListComponent implements OnInit {
         this.dataGrid.clearFilter();
         search.reset();
     }
+
 }

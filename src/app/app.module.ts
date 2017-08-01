@@ -7,21 +7,23 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { QuestionComponent } from './question/question.component';
-import { QuestionListComponent } from './question-list/question-list.component';
 import { HeaderComponent } from './header/header.component';
 import { DataGridComponent } from './shared/data-grid/data-grid.component';
+import { DataGridPagesComponent } from './shared/data-grid-pages/data-grid.component';
+import { QuestionListComponent } from './question-list/question-list.component';
 import { PagesComponent } from './pages/pages.component';
+import { PagesListComponent } from './pages-list/pages-list.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        QuestionComponent,
-        QuestionListComponent,
         HeaderComponent,
         DataGridComponent,
-        PagesComponent
+        DataGridPagesComponent,
+        QuestionListComponent,
+        PagesComponent,
+        PagesListComponent
     ],
     imports: [
         BrowserModule,

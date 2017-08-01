@@ -19,7 +19,7 @@
             <div class="col-12 col-sm-2 box-filter">
                 <h4 class="text-info">Filtro das questões</h4>
                 <br />
-                <form #frmQuestion name="frmQuestion">
+                <form #frmPages name="frmPages">
                     <label for="xxx">Busca geral:</label>
                     <input #search type="text" placeholder="Buscar em todos por..." (keydown.enter)="onSearch(search.value)" class="form-control" />
                     <br />
@@ -40,14 +40,14 @@
                     </div>
                     <br />
                     <div class="d-flex justify-content-center">
-                        <button (click)="clearFilter( frmQuestion )" class="btn btn-default">Limpar</button>
+                        <button (click)="clearFilter( frmPages )" class="btn btn-default">Limpar</button>
                         <button (click)="onSearch(search.value)" class="btn btn-success mg-left">Filtrar</button>
                     </div>
                 </form>
             </div>
 
             <div class="col no-pd-right">
-                <data-grid class="table table-hover table-bordered"></data-grid>
+                <data-grid-pages class="table table-hover table-bordered"></data-grid-pages>
             </div>
         </div>
     </div>

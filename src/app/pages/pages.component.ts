@@ -1,7 +1,7 @@
 import { QuestionListComponent } from './../question-list/question-list.component';
 import { Component, OnInit } from '@angular/core';
 import { QuestionListService } from './../shared/question-list.service';
-import { Question } from './../question/question.model';
+import { Question } from './../question-list/question.model';
 
 @Component({
     selector: 'app-pages',
@@ -55,21 +55,9 @@ export class PagesComponent implements OnInit {
         from.length = 0;
     }
 
-    moveUp = ( select, arrSelected ) : void => {
-
-        for ( let i = select.length - 1; i >= 0; i-- ) {
-            if ( select[ i ].selected == true ) {
-                if ( i > 0 ) {
-                    let selectedItem = arrSelected.splice( i, 1 );
-                    arrSelected.splice( i - 1, 0, selectedItem[ 0 ] );
-                }
-            }
-        }
-    }
-
     moveTop = ( select, arrSelected ) : void => {
 
-        for ( let i = select.length - 1; i >= 0; i-- ) {
+        for ( var i = 0; i < select.length; i++ ) {
             if ( select[ i ].selected == true ) {
                 let selectedItem = arrSelected.splice( i, 1 );
                 arrSelected.splice( 0, 0, selectedItem[ 0 ] );
@@ -77,16 +65,26 @@ export class PagesComponent implements OnInit {
         }
     }
 
+    moveUp = ( select, arrSelected ) : void => {
+
+        for ( let i = select.length - 1; i >= 0; i-- ) {
+            if ( select[ i ].selected != true || i == 0 )
+                continue;
+
+            let selectedItem = arrSelected.splice( i, 1 );
+            arrSelected.splice( i - 1, 0, selectedItem[ 0 ] );
+        }
+    }
+
     moveDown = ( select, arrSelected ) : void => {
         let selectCount = select.length;
 
         for ( let i = 0; i < select.length; i++ ) {
-            if ( select[ i ].selected == true ) {
-                if ( i < selectCount ) {
-                    let selectedItem = arrSelected.splice( i, 1 );
-                    arrSelected.splice( i + 1, 0, selectedItem[ 0 ] );
-                }
-            }
+            if ( select[ i ].selected != true || i == selectCount )
+                continue;
+
+            let selectedItem = arrSelected.splice( i, 1 );
+            arrSelected.splice( i + 1, 0, selectedItem[ 0 ] );
         }
     }
 
