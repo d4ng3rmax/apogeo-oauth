@@ -29,7 +29,7 @@ export class PageComponent implements OnInit {
         this.urlId = ( this.route.snapshot.params['id'] ) ? this.route.snapshot.params['id'] : null;
         this.listService = this.questionListService;
         this.pageService = this.pagesListService;
-        this.pageItems = new Page( 0, "", false );
+        this.pageItems = new Page( 0, "", {}, false );
     }
 
     async ngOnInit() {
