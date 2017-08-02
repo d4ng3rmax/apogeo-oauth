@@ -25,10 +25,10 @@ export class DataGridPagesComponent implements OnInit {
 
     constructor(
         public http: Http,
-        private questionList : PagesListService,
+        private pageList : PagesListService,
         private questionPersistService : PagesPersistService
     ) {
-        this.listServer = this.questionList;
+        this.listServer = this.pageList;
         this.persistServer = questionPersistService;
     }
 

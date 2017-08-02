@@ -1,7 +1,7 @@
 import { QuestionListComponent } from './../question-list/question-list.component';
 import { Component, OnInit } from '@angular/core';
 import { QuestionListService } from './../shared/question-list.service';
-import { Question } from './../question-list/question.model';
+import { Row } from './../shared/models/row.model';
 
 @Component({
     selector: 'app-pages',
@@ -14,7 +14,7 @@ export class PagesComponent implements OnInit {
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     listService : any;
-    items : Question;
+    items : Row;
 
     constructor( private questionListService : QuestionListService ) {
         this.listService = this.questionListService;
@@ -29,7 +29,7 @@ export class PagesComponent implements OnInit {
 
             if ( originSelect[ i ].selected == true ) {
 
-                let question = new Question(
+                let question = new Row(
                     originSelect[ i ].value,
                     originSelect[ i ].text
                 );

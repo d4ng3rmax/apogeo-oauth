@@ -1,4 +1,4 @@
-export class Question {
+export class Collection {
     id : number;
     question : string;
     active : boolean;
