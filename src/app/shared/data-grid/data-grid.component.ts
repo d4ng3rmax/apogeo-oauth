@@ -114,10 +114,10 @@ export class DataGridComponent implements OnInit {
     }
 
     onCreateConfirm( event ) {
-        if ( window.confirm( 'Are you sure you want to create?' ) ) {
+        if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
             // event.newData['name'] += ' + added in code';
             event.newData['active'] = ( event.newData['active'] == "" ) ? true : event.newData['active'];
-            let editService = this.persistServer.updateData( 1, event.newData );
+            let editService = this.persistServer.createData( 1, event.newData );
             event.confirm.resolve( event.newData );
         } else {
             event.confirm.reject();
@@ -125,8 +125,8 @@ export class DataGridComponent implements OnInit {
     }
 
     onSaveConfirm( event ) {
-        if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
-            let createService = this.persistServer.createData( event.newData['id'], event.newData );
+        if ( window.confirm( 'Confirma a atualização dessa frase?' ) ) {
+            let createService = this.persistServer.updateData( event.newData['id'], event.newData );
             event.confirm.resolve( event.newData );
         } else {
             event.confirm.reject();

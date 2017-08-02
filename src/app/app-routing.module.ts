@@ -12,7 +12,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: AppComponent
+                component: QuestionListComponent
             },
             {
                 path: 'question/list',
@@ -23,7 +23,7 @@ const routes: Routes = [
                 component: PageListComponent,
             },
             {
-                path: 'page',
+                path: 'page/:id',
                 component: PageComponent,
             }
         ]

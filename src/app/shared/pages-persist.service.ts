@@ -18,7 +18,7 @@ export class PagesPersistService {
     }
 
     async createData( id: number, obj : Object ) : Promise<any> {
-        this.http.put( `${ this.apiRoot + '/' + id }`, JSON.stringify( obj ), { headers: this.headers })
+        this.http.post( `${ this.apiRoot }`, JSON.stringify( obj ), { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
                 data => console.info( "Salvando..." ),
@@ -28,7 +28,7 @@ export class PagesPersistService {
     }
 
     async updateData( id: number, obj : Object ) : Promise<any> {
-        this.http.post( `${ this.apiRoot }`, JSON.stringify( obj ), { headers: this.headers })
+        this.http.put( `${ this.apiRoot + '/' + id }`, JSON.stringify( obj ), { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
                 data => console.info( "Salvando..." ),

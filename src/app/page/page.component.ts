@@ -1,27 +1,41 @@
 import { QuestionListComponent } from './../question-list/question-list.component';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { QuestionListService } from './../shared/question-list.service';
 import { Question } from './../shared/models/question.model';
+import { PagesListService } from './../shared/pages-list.service';
+import { Page } from './../shared/models/page.model';
 
 @Component({
     selector: 'app-page',
     templateUrl: './page.component.html',
     styleUrls: ['./page.component.scss'],
-    providers: [ QuestionListService ]
+    providers: [ QuestionListService, PagesListService ]
 })
 export class PageComponent implements OnInit {
 
+    private urlId : number;
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     listService : any;
-    items : Question;
+    pageService : any;
+    pageItems : Page;
 
-    constructor( private questionListService : QuestionListService ) {
+    constructor(
+        private route: ActivatedRoute,
+        private questionListService : QuestionListService,
+        private pagesListService : PagesListService
+    ) {
+        this.urlId = ( this.route.snapshot.params['id'] ) ? this.route.snapshot.params['id'] : null;
         this.listService = this.questionListService;
+        this.pageService = this.pagesListService;
+        this.pageItems = new Page( 0, "", false );
     }
 
     async ngOnInit() {
         this.avaliableItems = await this.listService.getResult();
+        let serverPageItems = await this.pageService.getSingleResult( this.urlId );
+        this.pageItems = new Page( serverPageItems.id, serverPageItems.title, serverPageItems.active );
     }
 
     moveItem = ( originSelect, from, to ) : void => {

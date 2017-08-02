@@ -9,9 +9,10 @@ import { Subject } from 'rxjs/Rx';
 })
 export class PageListComponent implements OnInit {
 
-    @ViewChild(DataGridPagesComponent) dataGrid : DataGridPagesComponent;
+    @ViewChild( DataGridPagesComponent ) dataGrid : DataGridPagesComponent;
 
-    constructor() { }
+    constructor() {
+    }
     ngOnInit() {}
 
     public onSearch = ( value ) : void => {

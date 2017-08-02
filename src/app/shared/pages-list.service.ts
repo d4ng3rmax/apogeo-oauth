@@ -21,4 +21,11 @@ export class PagesListService {
             .toPromise()
         return response.json();
     }
+
+    async getSingleResult( id ) : Promise<any> {
+
+        const response = await this.http.get( `${ this.apiRoot }/${ id }` )
+            .toPromise()
+        return response.json();
+    }
 }
