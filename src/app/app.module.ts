@@ -11,8 +11,8 @@ import { HeaderComponent } from './header/header.component';
 import { DataGridComponent } from './shared/data-grid/data-grid.component';
 import { DataGridPagesComponent } from './shared/data-grid-pages/data-grid.component';
 import { QuestionListComponent } from './question-list/question-list.component';
-import { PagesComponent } from './pages/pages.component';
-import { PagesListComponent } from './pages-list/pages-list.component';
+import { PageComponent } from './page/page.component';
+import { PageListComponent } from './page-list/page-list.component';
 
 
 @NgModule({
@@ -22,8 +22,8 @@ import { PagesListComponent } from './pages-list/pages-list.component';
         DataGridComponent,
         DataGridPagesComponent,
         QuestionListComponent,
-        PagesComponent,
-        PagesListComponent
+        PageComponent,
+        PageListComponent
     ],
     imports: [
         BrowserModule,

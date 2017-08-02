@@ -1,20 +1,20 @@
 import { QuestionListComponent } from './../question-list/question-list.component';
 import { Component, OnInit } from '@angular/core';
 import { QuestionListService } from './../shared/question-list.service';
-import { Row } from './../shared/models/row.model';
+import { Question } from './../shared/models/question.model';
 
 @Component({
-    selector: 'app-pages',
-    templateUrl: './pages.component.html',
-    styleUrls: ['./pages.component.scss'],
+    selector: 'app-page',
+    templateUrl: './page.component.html',
+    styleUrls: ['./page.component.scss'],
     providers: [ QuestionListService ]
 })
-export class PagesComponent implements OnInit {
+export class PageComponent implements OnInit {
 
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     listService : any;
-    items : Row;
+    items : Question;
 
     constructor( private questionListService : QuestionListService ) {
         this.listService = this.questionListService;
@@ -25,26 +25,21 @@ export class PagesComponent implements OnInit {
     }
 
     moveItem = ( originSelect, from, to ) : void => {
+
         for ( let i = originSelect.length - 1; i >= 0; i-- ) {
 
-            if ( originSelect[ i ].selected == true ) {
+            if ( originSelect[ i ].selected == false )
+                continue;
 
-                let question = new Row(
-                    originSelect[ i ].value,
-                    originSelect[ i ].text
-                );
+            let question = new Question(
+                originSelect[ i ].value,
+                originSelect[ i ].text,
+                true
+            );
 
-                to.push( question );
-                originSelect[i].remove();
-            }
+            to.push( question );
+            from.splice( from.findIndex( q => q.question == question.question && q.id == question.id ), 1 );
         }
-
-        from.map( elFrom => {
-            to.map( elTo => {
-                if ( elTo.id == elFrom.id )
-                    from.splice( from.indexOf( elFrom ), 1 );
-            });
-        });
     }
 
     moveAll = ( from, to ) : void => {

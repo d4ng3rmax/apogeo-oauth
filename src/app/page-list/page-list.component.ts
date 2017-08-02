@@ -4,10 +4,10 @@ import { Subject } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-pages-list',
-    templateUrl: './pages-list.component.html',
+    templateUrl: './page-list.component.html',
     styleUrls: ['./../shared/data-grid/data-grid.component.scss']
 })
-export class PagesListComponent implements OnInit {
+export class PageListComponent implements OnInit {
 
     @ViewChild(DataGridPagesComponent) dataGrid : DataGridPagesComponent;
 

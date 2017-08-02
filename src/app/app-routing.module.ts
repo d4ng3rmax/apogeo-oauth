@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { QuestionListComponent } from './question-list/question-list.component';
-import { PagesListComponent } from './pages-list/pages-list.component';
-import { PagesComponent } from './pages/pages.component';
+import { PageListComponent } from './page-list/page-list.component';
+import { PageComponent } from './page/page.component';
 
 const routes: Routes = [
     {
@@ -19,12 +19,12 @@ const routes: Routes = [
                 component: QuestionListComponent,
             },
             {
-                path: 'pages/list',
-                component: PagesListComponent,
+                path: 'page/list',
+                component: PageListComponent,
             },
             {
-                path: 'pages',
-                component: PagesComponent,
+                path: 'page',
+                component: PageComponent,
             }
         ]
     }

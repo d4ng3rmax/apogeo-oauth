@@ -1,10 +1,26 @@
-<!-- <app-header></app-header> -->
+ <app-header></app-header>
 
 <section>
     <div class="container-fluid">
 
-        <div class="row">
+        <div class="row bg-top-menu">
+            <div class="col">
+                <ul class="top-menu d-flex flex-row">
+                    <li class="p-2"><a href="#" class="btn btn-success"><i class="fa fa-save"></i> Salvar</a></li>
+                    <li class="p-2"><a href="#" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Voltar</a></li>
+                    <li class="p-2 mg-left-2"><a href="#" class="btn btn-danger"><i class="fa fa-close"></i> Excluir</a></li>
+                </ul>
+            </div>
+        </div>
 
+        <div class="row mg-top-2">
+            <div class="col-12 col-md-3 form-group">
+                <label for="txt-nome">Nome da página:</label>
+                <input type="text" id="txt-nome" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row mg-top-1">
             <div class="col">
                 <div class="form-group">
                     <label for="sel-avaliable">Perguntas disponíveis:</label>
@@ -62,8 +78,8 @@
                     <button (click)="moveBottom( selSelected, selectedItems )" class="btn btn-default"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
                 </div>
             </div>
-
         </div>
+
     </div>
 
 </section>
