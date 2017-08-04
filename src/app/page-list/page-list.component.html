@@ -3,7 +3,7 @@
 <section>
     <div class="container-fluid">
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-12">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -12,7 +12,7 @@
                     <strong>Holy guacamole!</strong> You should check in on some of those fields below.
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="row no-mg">
 
@@ -20,21 +20,18 @@
                 <h4 class="text-info">Filtro das questões</h4>
                 <br />
                 <form #frmPages name="frmPages">
-                    <label for="xxx">Busca geral:</label>
-                    <input #search type="text" placeholder="Buscar em todos por..." (keydown.enter)="onSearch(search.value)" class="form-control" />
-                    <br />
-                    <label for="xxx">Por pergunta:</label>
-                    <input type="text" id="xxx" class="form-control" />
+                    <label for="xxx">Por nome:</label>
+                    <input #search type="text" placeholder="Buscar por..." (keydown.enter)="onSearch(search.value)" class="form-control" />
                     <br />
                     <label for="xxx">Por status:</label>
                     <div class="form-check">
                         <label class="form-check-label mg-right">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" [(ngModel)]="active" [checked]="active == true" />
                             Ativo
                         </label>
 
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" [(ngModel)]="active" [checked]="active == false" />
                             Inativo
                         </label>
                     </div>

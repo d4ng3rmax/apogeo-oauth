@@ -11,12 +11,15 @@ export class PageListComponent implements OnInit {
 
     @ViewChild( DataGridPagesComponent ) dataGrid : DataGridPagesComponent;
 
+    active : boolean;
+
     constructor() {
+        this.active = true;
     }
     ngOnInit() {}
 
     public onSearch = ( value ) : void => {
-        this.dataGrid.onSearch( value );
+        this.dataGrid.onSearch( value, this.active );
     }
 
     public clearFilter = ( search ) : void => {

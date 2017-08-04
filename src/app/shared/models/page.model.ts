@@ -2,12 +2,12 @@ export class Page {
     id : number;
     title : string;
     active : boolean;
-    questionOrders : Object;
+    questionOrder : Object;
 
-    constructor( id : number, title : string, questionOrders: Object,  active? : boolean ) {
+    constructor( id : number, title : string, questionOrder: Object,  active? : boolean ) {
         this.id = id;
         this.title = title;
-        this.questionOrders = questionOrders;
+        this.questionOrder = questionOrder;
         this.active = active || false;
     }
 }

@@ -17,13 +17,13 @@ export class PagesPersistService {
         this.headers.append('Content-Type', 'application/json');
     }
 
-    async createData( id: number, obj : Object ) : Promise<any> {
+    async createData( obj : Object ) : Promise<any> {
         this.http.post( `${ this.apiRoot }`, JSON.stringify( obj ), { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
-                data => console.info( "Salvando..." ),
+                data => console.info( "Criando..." ),
                 err => console.error( err ),
-                () => console.log( 'Salvo!' )
+                () => console.log( 'Criados!' )
             );
     }
 
@@ -41,9 +41,9 @@ export class PagesPersistService {
         this.http.delete( `${ this.apiRoot + '/' + id }`, { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
-                data => console.info( "Salvando..." ),
+                data => console.info( "Excluindo..." ),
                 err => console.error( err ),
-                () => console.log( 'Salvo!' )
+                () => console.log( 'Excluido!' )
             );
     }
 }

@@ -25,6 +25,10 @@ const routes: Routes = [
             {
                 path: 'page/:id',
                 component: PageComponent,
+            },
+            {
+                path: 'page',
+                component: PageComponent,
             }
         ]
     }
