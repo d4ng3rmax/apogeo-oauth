@@ -21,24 +21,24 @@
                 <br />
                 <form #frmPages name="frmPages">
                     <label for="xxx">Por nome:</label>
-                    <input #search type="text" placeholder="Buscar por..." (keydown.enter)="onSearch(search.value)" class="form-control" />
+                    <input #search type="text" placeholder="Buscar por..." (keyup)="onSearch( search.value )" class="form-control" />
                     <br />
                     <label for="xxx">Por status:</label>
                     <div class="form-check">
                         <label class="form-check-label mg-right">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" [(ngModel)]="active" [checked]="active == true" />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" (click)="active = true; onSearch( search.value )" [(ngModel)]="active" [checked]="active == true" />
                             Ativo
                         </label>
 
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" [(ngModel)]="active" [checked]="active == false" />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" (click)="active = false; onSearch( search.value )" [(ngModel)]="active" [checked]="active == false" />
                             Inativo
                         </label>
                     </div>
                     <br />
                     <div class="d-flex justify-content-center">
                         <button (click)="clearFilter( frmPages )" class="btn btn-default">Limpar</button>
-                        <button (click)="onSearch(search.value)" class="btn btn-success mg-left">Filtrar</button>
+                        <button (click)="onSearch( search.value )" class="btn btn-success mg-left">Filtrar</button>
                     </div>
                 </form>
             </div>

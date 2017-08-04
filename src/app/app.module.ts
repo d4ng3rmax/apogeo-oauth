@@ -16,7 +16,7 @@ import { PageComponent } from './page/page.component';
 import { PageListComponent } from './page-list/page-list.component';
 import { SurveyComponent } from './survey/survey.component';
 import { SurveyListComponent } from './survey-list/survey-list.component';
-
+import { CreateModalComponent } from './shared/partials/create-modal.component';
 
 @NgModule({
     declarations: [
@@ -24,12 +24,13 @@ import { SurveyListComponent } from './survey-list/survey-list.component';
         HeaderComponent,
         DataGridComponent,
         DataGridPagesComponent,
-        DataGridSurveyComponent, 
+        DataGridSurveyComponent,
         QuestionListComponent,
         PageComponent,
         PageListComponent,
         SurveyComponent,
-        SurveyListComponent
+        SurveyListComponent,
+        CreateModalComponent
     ],
     imports: [
         BrowserModule,

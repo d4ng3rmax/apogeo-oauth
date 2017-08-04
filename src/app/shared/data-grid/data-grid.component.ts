@@ -115,7 +115,7 @@ export class DataGridComponent implements OnInit {
     onCreateConfirm( event ) {
         if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
             // event.newData['name'] += ' + added in code';
-            event.newData['active'] = ( event.newData['active'] == "" ) ? true : event.newData['active'];
+            event.newData['active'] = event.newData['active'];
             let editService = this.persistServer.createData( 1, event.newData );
             event.confirm.resolve( event.newData );
         } else {
