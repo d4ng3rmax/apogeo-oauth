@@ -103,7 +103,7 @@ export class DataGridPagesComponent implements OnInit {
         }
         
         onDeleteConfirm( event ) {
-            if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
+            if ( window.confirm( 'Deseja mesmo excluir essa página?' ) ) {
                 let createService = this.persistServer.deleteData( event.data['id'] );
                 this.source.remove( event.data );
             } else {

@@ -10,9 +10,12 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { DataGridComponent } from './shared/data-grid/data-grid.component';
 import { DataGridPagesComponent } from './shared/data-grid-pages/data-grid.component';
+import { DataGridSurveyComponent } from './shared/data-grid-survey/data-grid.component';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { PageComponent } from './page/page.component';
 import { PageListComponent } from './page-list/page-list.component';
+import { SurveyComponent } from './survey/survey.component';
+import { SurveyListComponent } from './survey-list/survey-list.component';
 
 
 @NgModule({
@@ -21,9 +24,12 @@ import { PageListComponent } from './page-list/page-list.component';
         HeaderComponent,
         DataGridComponent,
         DataGridPagesComponent,
+        DataGridSurveyComponent, 
         QuestionListComponent,
         PageComponent,
-        PageListComponent
+        PageListComponent,
+        SurveyComponent,
+        SurveyListComponent
     ],
     imports: [
         BrowserModule,

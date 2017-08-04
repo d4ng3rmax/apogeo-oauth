@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-import { PagesListService } from './../pages-list.service';
-import { PagesPersistService } from './../pages-persist.service';
+import { SurveyListService } from './../survey-list.service';
+import { SurveyPersistService } from './../survey-persist.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
-    selector: 'data-grid-pages',
+    selector: 'data-grid-survey',
     template: `<ng2-smart-table
     [settings]="settings" 
     [source]="source" 
@@ -15,10 +15,10 @@ import { LocalDataSource } from 'ng2-smart-table';
     (delete)="onDeleteConfirm($event)"></ng2-smart-table>
     `,
     styleUrls: ['./../data-grid/data-grid.component.scss'],
-    providers: [ PagesListService, PagesPersistService ],
+    providers: [ SurveyListService, SurveyPersistService ],
     encapsulation: ViewEncapsulation.None
 })
-export class DataGridPagesComponent implements OnInit {
+export class DataGridSurveyComponent implements OnInit {
     
     listServer : any;
     persistServer : any;
@@ -27,8 +27,8 @@ export class DataGridPagesComponent implements OnInit {
     constructor(
         private router: Router, 
         public http: Http,
-        private pageList : PagesListService,
-        private questionPersistService : PagesPersistService
+        private pageList : SurveyListService,
+        private questionPersistService : SurveyPersistService
     ) {
         this.listServer = this.pageList;
         this.persistServer = questionPersistService;
@@ -42,7 +42,7 @@ export class DataGridPagesComponent implements OnInit {
         mode: 'external',
         add: {
             confirmCreate: true,
-            addButtonContent: '<i class="fa fa-plus"><span>Adicionar Página</span></i>',
+            addButtonContent: '<i class="fa fa-plus"><span>Adicionar Questionário</span></i>',
             createButtonContent: '<i class="fa fa-check"><span>Criar</span></i>',
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
         },
@@ -62,7 +62,7 @@ export class DataGridPagesComponent implements OnInit {
         },
         columns: {
             title: {
-                title: 'Páginas',
+                title: 'Questionário',
                 editor: {
                     type : 'textarea' },
                     width: "70%",
@@ -76,7 +76,7 @@ export class DataGridPagesComponent implements OnInit {
         };
 
         onCreate() {
-            this.router.navigate( ['/page' ] );
+            this.router.navigate( ['/survey' ] );
         }
         
         onSearch( query: string = '', active ) {
@@ -103,7 +103,7 @@ export class DataGridPagesComponent implements OnInit {
         }
         
         onDeleteConfirm( event ) {
-            if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
+            if ( window.confirm( 'Deseja mesmo excluir esse Questionário?' ) ) {
                 let createService = this.persistServer.deleteData( event.data['id'] );
                 this.source.remove( event.data );
             } else {
@@ -112,7 +112,7 @@ export class DataGridPagesComponent implements OnInit {
         }
         
         onEdit( event: any ) {
-            this.router.navigate( ['/page', event.data.id ] );
+            this.router.navigate( ['/survey', event.data.id ] );
         }
         
     }
