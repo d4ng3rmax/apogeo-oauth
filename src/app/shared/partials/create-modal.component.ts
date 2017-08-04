@@ -36,9 +36,9 @@ export class CreateModalComponent implements OnInit {
         this.modal.open(size);
     }
 
-    openModal(source) {
+    openModal( source ) {
       this.source = source;
-      this.open('sm');
+      this.open( 'sm' );
     }
 
     onSubmit({ value, valid }: { value: Question, valid: boolean }) {
