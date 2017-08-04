@@ -59,7 +59,7 @@ export class DataGridComponent implements OnInit {
         },
         columns: {
             question: {
-                title: 'Perguntas',
+                title: 'Frases',
                 editor: {
                     type : 'textarea' },
                 width: "70%",
@@ -89,24 +89,23 @@ export class DataGridComponent implements OnInit {
         },
     };
 
-    onSearch( query: string = '' ) {
+    onSearch( query: string = '', active ) {
 
-        query = ( query == '' ) ? ' ' : query;
+        if ( query == '' ) {
+            this.source.reset();
+            return;
+        }
 
         this.source.setFilter([
-            {
-                field: 'id',
-                search: query
-            },
             {
                 field: 'question',
                 search: query
             },
             {
                 field: 'active',
-                search: query
+                search: active
             }
-        ], false);
+        ], true);
     }
 
     clearFilter =(): void => {

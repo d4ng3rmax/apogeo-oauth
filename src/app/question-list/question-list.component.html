@@ -17,31 +17,28 @@
         <div class="row no-mg">
 
             <div class="col-12 col-sm-2 box-filter">
-                <h4 class="text-info">Filtro das questões</h4>
+                <h4 class="text-info">Filtro das frases</h4>
                 <br />
                 <form #frmQuestion name="frmQuestion">
-                    <label for="xxx">Busca geral:</label>
-                    <input #search type="text" placeholder="Buscar em todos por..." (keydown.enter)="onSearch(search.value)" class="form-control" />
-                    <br />
-                    <label for="xxx">Por pergunta:</label>
-                    <input type="text" id="xxx" class="form-control" />
+                    <label for="xxx">Por frase:</label>
+                    <input #search type="text" id="xxx" class="form-control" (keyup)="onSearch( search.value )" />
                     <br />
                     <label for="xxx">Por status:</label>
                     <div class="form-check">
                         <label class="form-check-label mg-right">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" [(ngModel)]="active" (click)="active = true; onSearch( search.value )" [checked]="active == true" />
                             Ativo
                         </label>
 
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" [(ngModel)]="active" (click)="active = false; onSearch( search.value )" [checked]="active == false" />
                             Inativo
                         </label>
                     </div>
                     <br />
                     <div class="d-flex justify-content-center">
                         <button (click)="clearFilter( frmQuestion )" class="btn btn-default">Limpar</button>
-                        <button (click)="onSearch(search.value)" class="btn btn-success mg-left">Filtrar</button>
+                        <button (click)="onSearch( search.value )" class="btn btn-success mg-left">Filtrar</button>
                     </div>
                 </form>
             </div>

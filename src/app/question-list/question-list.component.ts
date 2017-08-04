@@ -11,11 +11,15 @@ export class QuestionListComponent implements OnInit {
 
     @ViewChild(DataGridComponent) dataGrid : DataGridComponent;
 
-    constructor() {}
+    active : boolean;
+
+    constructor() {
+        this.active = true;
+    }
     ngOnInit() {}
 
     public onSearch = ( value ) : void => {
-        this.dataGrid.onSearch( value );
+        this.dataGrid.onSearch( value, this.active );
     }
 
     public clearFilter = ( search ) : void => {
