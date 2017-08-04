@@ -10,8 +10,8 @@ import { Survey } from './../shared/models/survey.model';
 @Component({
     selector: 'app-survey',
     templateUrl: './survey.component.html',
-    styleUrls: ['./survey.component.scss'],
-    providers: [ PageListComponent, SurveyListService, SurveyPersistService ]
+    styleUrls: ['./../page/page.component.scss'],
+    providers: [ PagesListService, SurveyListService, SurveyPersistService ]
 })
 export class SurveyComponent implements OnInit {
     
@@ -23,7 +23,7 @@ export class SurveyComponent implements OnInit {
     
     constructor(
         private route: ActivatedRoute,
-        private pagesListService : PagesListService, 
+        private pagesListService : PagesListService,
         private surveyListService : SurveyListService,
         private surveyPersistService : SurveyPersistService
     ) {
