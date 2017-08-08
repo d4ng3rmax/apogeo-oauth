@@ -4,6 +4,7 @@ import { QuestionPersistService } from './../question-persist.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Question } from './../models/question.model';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'mm-create-modal',

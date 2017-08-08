@@ -1,17 +1,24 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { QuestionListService } from './../question-list.service';
 import { QuestionPersistService } from './../question-persist.service';
+import { CreateModalComponent } from './../partials/create-modal.component';
+//import { EditModalComponent } from './../partials/edit-modal.component';
 import { LocalDataSource } from 'ng2-smart-table';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'data-grid',
     template: `<ng2-smart-table
     [settings]="settings"
     [source]="source"
+    (create)="onCreate($event)"
+    (edit)="onSave($event)"
     (createConfirm)="onCreateConfirm($event)"
     (editConfirm)="onSaveConfirm($event)"
     (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
+    <mm-create-modal></mm-create-modal>
     `,
     styleUrls: ['./data-grid.component.scss'],
     providers: [ QuestionListService, QuestionPersistService ],
@@ -36,7 +43,14 @@ export class DataGridComponent implements OnInit {
         this.source = new LocalDataSource( await this.listServer.getResult() );
     }
 
+    @ViewChild( CreateModalComponent )
+        modalHtml: CreateModalComponent;
+
+    // @ViewChild(EditModalComponent)
+    //     modalHtml1: EditModalComponent;
+
     settings = {
+        mode: 'external',
         add: {
             confirmCreate: true,
             addButtonContent: '<i class="fa fa-plus"><span>Adicionar Pergunta</span></i>',
@@ -62,83 +76,95 @@ export class DataGridComponent implements OnInit {
                 title: 'Frases',
                 editor: {
                     type : 'textarea' },
-                width: "70%",
-                filter: false
-            },
-            active: {
-                title: 'Ativo',
-                class: 'xxxx',
-                editor: {
-                    type: 'list',
-                    config: {
-                        list: [
-                            { title: 'Ativo', value: true },
-                            { title: 'Desativado', value: false }
-                        ]
-                    }
+                    width: "70%",
+                    filter: false
                 },
-                filter: {
-                    type: 'checkbox',
-                    config: {
-                        true: 'true',
-                        false: 'false',
-                        resetText: 'Limpar',
+                active: {
+                    title: 'Ativo',
+                    class: 'xxxx',
+                    editor: {
+                        type: 'list',
+                        config: {
+                            list: [
+                                { title: 'Ativo', value: true },
+                                { title: 'Desativado', value: false }
+                            ]
+                        }
                     },
-                },
-            }
-        },
-    };
-
-    onSearch( query: string = '', active ) {
-
-        if ( query == '' ) {
-            this.source.reset();
-            return;
-        }
-
-        this.source.setFilter([
-            {
-                field: 'question',
-                search: query
+                    filter: {
+                        type: 'checkbox',
+                        config: {
+                            true: 'true',
+                            false: 'false',
+                            resetText: 'Limpar',
+                        },
+                    },
+                }
             },
-            {
-                field: 'active',
-                search: active
+        };
+
+        onSearch( query: string = '', active ) {
+
+            if ( query == '' ) {
+                this.source.reset();
+                return;
             }
-        ], true);
-    }
 
-    clearFilter =(): void => {
-        this.source.reset();
-    }
-
-    onCreateConfirm( event ) {
-        if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
-            // event.newData['name'] += ' + added in code';
-            event.newData['active'] = event.newData['active'];
-            let editService = this.persistServer.createData( 1, event.newData );
-            event.confirm.resolve( event.newData );
-        } else {
-            event.confirm.reject();
+            this.source.setFilter([
+                {
+                    field: 'question',
+                    search: query
+                },
+                {
+                    field: 'active',
+                    search: active
+                }
+            ], true);
         }
-    }
 
-    onSaveConfirm( event ) {
-        if ( window.confirm( 'Confirma a atualização dessa frase?' ) ) {
-            let createService = this.persistServer.updateData( event.newData['id'], event.newData );
-            event.confirm.resolve( event.newData );
-        } else {
-            event.confirm.reject();
+        clearFilter =(): void => {
+            this.source.reset();
         }
-    }
 
-    onDeleteConfirm( event ) {
-        if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
-            let createService = this.persistServer.deleteData( event.data['id'] );
-            event.confirm.resolve();
-        } else {
-            event.confirm.reject();
+        onCreate( event: any ) {
+            console.info( "creating.... ||||" );
+            //this.modalHtml.openModal( this.source );
+            console.info( this.modalHtml );
         }
-    }
 
-}
+        onSave( event: any ) {
+            // this.appService.setDetails(event.data);
+            // this.modalHtml1.openModal(this.source);
+            console.info( 'edit... |||' );
+        }
+
+        onCreateConfirm( event ) {
+            if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
+                // event.newData['name'] += ' + added in code';
+                event.newData['active'] = event.newData['active'];
+                let editService = this.persistServer.createData( 1, event.newData );
+                event.confirm.resolve( event.newData );
+            } else {
+                event.confirm.reject();
+            }
+        }
+
+        onSaveConfirm( event ) {
+            if ( window.confirm( 'Confirma a atualização dessa frase?' ) ) {
+                let createService = this.persistServer.updateData( event.newData['id'], event.newData );
+                event.confirm.resolve( event.newData );
+            } else {
+                event.confirm.reject();
+            }
+        }
+
+        onDeleteConfirm( event ) {
+            if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
+                let createService = this.persistServer.deleteData( event.data['id'] );
+                event.confirm.resolve();
+            } else {
+                event.confirm.reject();
+            }
+        }
+
+    }
