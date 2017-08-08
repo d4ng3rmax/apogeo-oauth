@@ -17,7 +17,7 @@ export class QuestionPersistService {
         this.headers.append('Content-Type', 'application/json');
     }
 
-    async createData( id: number, obj : Object ) : Promise<any> {
+    async createData( obj : Object ) : Promise<any> {
         this.http.post( `${ this.apiRoot }`, JSON.stringify( obj ), { headers: this.headers })
             .map( res => res.json() )
             .subscribe(

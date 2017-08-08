@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +39,8 @@ import { CreateModalComponent } from './shared/partials/create-modal.component';
         HttpModule,
         NgxPaginationModule,
         Ng2SmartTableModule,
-        AppRoutingModule
+        AppRoutingModule,
+        Ng2Bs3ModalModule
     ],
     providers: [],
     bootstrap: [AppComponent]

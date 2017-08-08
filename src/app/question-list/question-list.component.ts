@@ -9,7 +9,7 @@ import { Subject } from 'rxjs/Rx';
 })
 export class QuestionListComponent implements OnInit {
 
-    @ViewChild(DataGridComponent) dataGrid : DataGridComponent;
+    @ViewChild( DataGridComponent ) dataGrid : DataGridComponent;
 
     active : boolean;
 

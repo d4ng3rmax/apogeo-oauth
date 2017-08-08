@@ -2,28 +2,28 @@ import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { QuestionPersistService } from './../question-persist.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Question } from './../models/question.model';
 
 @Component({
     selector: 'mm-create-modal',
-    templateUrl: 'src/create-modal.component.html',
-    styleUrls: ['src/create-modal.component.css'],
+    templateUrl: './create-modal.component.html',
+    styleUrls: ['./create-modal.component.scss'],
 })
 export class CreateModalComponent implements OnInit {
 
-    question: Question;
-    userDetails: FormGroup;
-    source: LocalDataSource;
     @Input() question: Question;
 
-    @ViewChild('modal')
+    userDetails: FormGroup;
+    source: LocalDataSource;
+
+    @ViewChild( 'modal' )
         modal: CreateModalComponent;
 
     constructor(
         private fb: FormBuilder,
         private questionPersistService: QuestionPersistService
-    ) {
-     }
+    ) {}
 
     ngOnInit(): void {
         this.userDetails = this.fb.group({
@@ -32,13 +32,13 @@ export class CreateModalComponent implements OnInit {
         });
     }
 
-    open(size: string) {
-        this.modal.open(size);
+    open( size: string ) {
+        this.modal.open( size );
     }
 
     openModal( source ) {
-      this.source = source;
-      this.open( 'sm' );
+        this.source = source;
+        this.open( 'sm' );
     }
 
     onSubmit({ value, valid }: { value: Question, valid: boolean }) {
@@ -52,14 +52,10 @@ export class CreateModalComponent implements OnInit {
 
     add({ value, valid }: { value: Question, valid: boolean }): void {
         let result = JSON.stringify(value);
-        if (!result) {
+
+        if ( !result ) {
             return;
         }
-        this.questionPersistService.create(value)
-            .then(orderRequest => {
-                this.question.push(orderRequest);
-                this.source.add(orderRequest);
-                this.source.refresh();
-            });
+        this.questionPersistService.createData( value );
     }
 }
