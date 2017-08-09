@@ -14,6 +14,7 @@ export class EditModalComponent implements OnInit {
     question: Question;
     userDetails: FormGroup;
     source: LocalDataSource;
+    htmlActive : boolean;
     data: any;
 
     @ViewChild( 'modal' )
@@ -34,13 +35,14 @@ export class EditModalComponent implements OnInit {
     }
 
     open( size: string ) {
-        
+
         this.userDetails = this.fb.group({
             id: [ this.data.id ],
             pergunta: [ this.data.question ],
             active: [ this.data.active ]
         });
-        
+
+        this.htmlActive = this.data.active;
         this.modal.open( size );
     }
 

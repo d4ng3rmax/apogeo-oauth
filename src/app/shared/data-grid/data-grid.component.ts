@@ -14,9 +14,7 @@ import { LocalDataSource } from 'ng2-smart-table';
     [source]="source"
     (create)="onCreate($event)"
     (edit)="onSave($event)"
-    (delete)="onDeleteConfirm($event)" 
-    (createConfirm)="onCreateConfirm($event)"
-    (editConfirm)="onSaveConfirm($event)"
+    (delete)="onDeleteConfirm($event)"
     (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
     <mm-create-modal></mm-create-modal>
     <mm-edit-modal></mm-edit-modal>

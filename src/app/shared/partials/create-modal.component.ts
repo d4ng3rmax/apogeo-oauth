@@ -27,7 +27,8 @@ export class CreateModalComponent implements OnInit {
         this.question = new Question( 1, "", true );
 
         this.userDetails = this.fb.group({
-            pergunta: ''
+            pergunta: '',
+            active: true
         });
     }
 
@@ -52,7 +53,7 @@ export class CreateModalComponent implements OnInit {
         if ( !value ) {
             return;
         }
-        
+
         this.questionPersistService.createData( value );
         this.source.add( this.question );
         this.source.refresh();

@@ -5,8 +5,22 @@
     <modal-body>
         <form novalidate [formGroup]="userDetails" (ngSubmit)="onSubmit(userDetails)">
             <div class="form-group">
-                <label for="pergunta">Pergunta:</label>
+                <label for="pergunta">Frase:</label>
                 <input type="text" style="width: 100%;" class="form-control" formControlName="pergunta" id="pergunta" autofocus>
+
+                <br />
+
+                <div class="form-check">
+                    <label class="form-check-label mg-right">
+                        <input type="radio" class="form-check-input" formControlName="active" id="optionsRadios1" value="true" checked />
+                        Ativo
+                    </label>
+
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" formControlName="active" id="optionsRadios1" value="false" />
+                        Inativo
+                    </label>
+                </div>
             </div>
             <button type="submit" class="btn btn-success" [disabled]="userDetails.invalid">Cadastrar</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancelar</button>

@@ -24,7 +24,7 @@
         <div class="row mg-top-1">
             <div class="col">
                 <div class="form-group">
-                    <label for="sel-avaliable">Perguntas disponíveis:</label>
+                    <label for="sel-avaliable">Frases disponíveis:</label>
                     <select multiple="multiple" #selAvaliable id="sel-avaliable" class="form-control sel-multiple">
                         <option *ngFor="let item of avaliableItems" [value]="item.id">
                             {{ item.question }}
@@ -53,7 +53,7 @@
 
             <div class="col">
                 <div class="form-group">
-                    <label for="sel-selected">Questões inseridas:</label>
+                    <label for="sel-selected">Frases inseridas:</label>
                     <select multiple="multiple" #selSelected id="sel-selected" class="form-control sel-multiple">
                         <option *ngFor="let item of selectedItems" [value]="item.id">
                             {{ item.question }}
