@@ -6,7 +6,6 @@ import { QuestionPersistService } from './../question-persist.service';
 import { CreateModalComponent } from './../partials/create-modal.component';
 //import { EditModalComponent } from './../partials/edit-modal.component';
 import { LocalDataSource } from 'ng2-smart-table';
-import * as $ from 'jquery';
 
 @Component({
     selector: 'data-grid',
@@ -127,9 +126,7 @@ export class DataGridComponent implements OnInit {
         }
 
         onCreate( event: any ) {
-            console.info( "creating.... ||||" );
-            //this.modalHtml.openModal( this.source );
-            console.info( this.modalHtml );
+            this.modalHtml.openModal( this.source );
         }
 
         onSave( event: any ) {

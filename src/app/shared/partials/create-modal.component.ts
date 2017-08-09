@@ -4,7 +4,7 @@ import { QuestionPersistService } from './../question-persist.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Question } from './../models/question.model';
-import * as $ from 'jquery';
+import Tether from "tether";
 
 @Component({
     selector: 'mm-create-modal',
@@ -13,13 +13,12 @@ import * as $ from 'jquery';
 })
 export class CreateModalComponent implements OnInit {
 
-    @Input() question: Question;
-
+    question: Question;
     userDetails: FormGroup;
     source: LocalDataSource;
 
     @ViewChild( 'modal' )
-        modal: CreateModalComponent;
+        modal: ModalComponent;
 
     constructor(
         private fb: FormBuilder,
@@ -27,9 +26,10 @@ export class CreateModalComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.question = new Question( 1, "", true );
+
         this.userDetails = this.fb.group({
-            location: [''],
-            fullname: ['']
+            pergunta: ''
         });
     }
 
@@ -39,24 +39,28 @@ export class CreateModalComponent implements OnInit {
 
     openModal( source ) {
         this.source = source;
-        this.open( 'sm' );
+        this.open( 'md' );
     }
 
-    onSubmit({ value, valid }: { value: Question, valid: boolean }) {
-        this.add({ value, valid });
+    onSubmit({ value }: { value: Object }) {
+        this.question.question = value[ 'pergunta' ];
+
+        this.add( this.question );
         this.modal.close();
     }
 
-    close() {
-        this.modal.close();
-    }
-
-    add({ value, valid }: { value: Question, valid: boolean }): void {
-        let result = JSON.stringify(value);
+    add( value: Question ): void {
+        let result = JSON.stringify( value );
 
         if ( !result ) {
             return;
         }
-        this.questionPersistService.createData( value );
+        this.questionPersistService.createData( result );
+        this.source.add( this.question );
+        this.source.refresh();
+    }
+
+    close() {
+        this.modal.close();
     }
 }

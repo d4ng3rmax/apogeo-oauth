@@ -21,9 +21,9 @@ export class QuestionPersistService {
         this.http.post( `${ this.apiRoot }`, JSON.stringify( obj ), { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
-                data => console.info( "Salvando..." ),
+                data => console.info( "Criando..." ),
                 err => console.error( err ),
-                () => console.log( 'Salvo!' )
+                () => console.log( 'Criado!' )
             );
     }
 
