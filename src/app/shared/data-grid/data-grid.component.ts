@@ -4,7 +4,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { QuestionListService } from './../question-list.service';
 import { QuestionPersistService } from './../question-persist.service';
 import { CreateModalComponent } from './../partials/create-modal.component';
-//import { EditModalComponent } from './../partials/edit-modal.component';
+import { EditModalComponent } from './../partials/edit-modal.component';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
@@ -14,10 +14,12 @@ import { LocalDataSource } from 'ng2-smart-table';
     [source]="source"
     (create)="onCreate($event)"
     (edit)="onSave($event)"
+    (delete)="onDeleteConfirm($event)" 
     (createConfirm)="onCreateConfirm($event)"
     (editConfirm)="onSaveConfirm($event)"
     (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
     <mm-create-modal></mm-create-modal>
+    <mm-edit-modal></mm-edit-modal>
     `,
     styleUrls: ['./data-grid.component.scss'],
     providers: [ QuestionListService, QuestionPersistService ],
@@ -45,8 +47,8 @@ export class DataGridComponent implements OnInit {
     @ViewChild( CreateModalComponent )
         modalHtml: CreateModalComponent;
 
-    // @ViewChild(EditModalComponent)
-    //     modalHtml1: EditModalComponent;
+    @ViewChild(EditModalComponent)
+        modalHtmlEdit: EditModalComponent;
 
     settings = {
         mode: 'external',
@@ -130,37 +132,35 @@ export class DataGridComponent implements OnInit {
         }
 
         onSave( event: any ) {
-            // this.appService.setDetails(event.data);
-            // this.modalHtml1.openModal(this.source);
-            console.info( 'edit... |||' );
+            this.modalHtmlEdit.openModal( event, this.source );
         }
 
-        onCreateConfirm( event ) {
-            if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
-                // event.newData['name'] += ' + added in code';
-                event.newData['active'] = event.newData['active'];
-                let editService = this.persistServer.createData( 1, event.newData );
-                event.confirm.resolve( event.newData );
-            } else {
-                event.confirm.reject();
-            }
-        }
+        // onCreateConfirm( event ) {
+        //     if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
+        //         // event.newData['name'] += ' + added in code';
+        //         event.newData['active'] = event.newData['active'];
+        //         let editService = this.persistServer.createData( 1, event.newData );
+        //         event.confirm.resolve( event.newData );
+        //     } else {
+        //         event.confirm.reject();
+        //     }
+        // }
 
-        onSaveConfirm( event ) {
-            if ( window.confirm( 'Confirma a atualização dessa frase?' ) ) {
-                let createService = this.persistServer.updateData( event.newData['id'], event.newData );
-                event.confirm.resolve( event.newData );
-            } else {
-                event.confirm.reject();
-            }
-        }
+        // onSaveConfirm( event ) {
+        //     if ( window.confirm( 'Confirma a atualização dessa frase?' ) ) {
+        //         let createService = this.persistServer.updateData( event.newData['id'], event.newData );
+        //         event.confirm.resolve( event.newData );
+        //     } else {
+        //         event.confirm.reject();
+        //     }
+        // }
 
         onDeleteConfirm( event ) {
             if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
                 let createService = this.persistServer.deleteData( event.data['id'] );
-                event.confirm.resolve();
+                this.source.remove( event.data );
             } else {
-                event.confirm.reject();
+                return false;
             }
         }
 

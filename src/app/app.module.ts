@@ -18,6 +18,7 @@ import { PageListComponent } from './page-list/page-list.component';
 import { SurveyComponent } from './survey/survey.component';
 import { SurveyListComponent } from './survey-list/survey-list.component';
 import { CreateModalComponent } from './shared/partials/create-modal.component';
+import { EditModalComponent } from './shared/partials/edit-modal.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { CreateModalComponent } from './shared/partials/create-modal.component';
         PageListComponent,
         SurveyComponent,
         SurveyListComponent,
-        CreateModalComponent
+        CreateModalComponent,
+        EditModalComponent
     ],
     imports: [
         BrowserModule,

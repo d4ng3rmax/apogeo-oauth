@@ -31,9 +31,9 @@ export class QuestionPersistService {
         this.http.put( `${ this.apiRoot + '/' + id }`, JSON.stringify( obj ), { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
-                data => console.info( "Salvando..." ),
+                data => console.info( "Editando..." ),
                 err => console.error( err ),
-                () => console.log( 'Salvo!' )
+                () => console.log( 'Editado!' )
             );
     }
 
@@ -41,9 +41,9 @@ export class QuestionPersistService {
         this.http.delete( `${ this.apiRoot + '/' + id }`, { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
-                data => console.info( "Salvando..." ),
+                data => console.info( "Excluindo..." ),
                 err => console.error( err ),
-                () => console.log( 'Salvo!' )
+                () => console.log( 'Excluido!' )
             );
     }
 }

@@ -12,10 +12,15 @@ export class QuestionListComponent implements OnInit {
     @ViewChild( DataGridComponent ) dataGrid : DataGridComponent;
 
     active : boolean;
+    alertClass: string;
+    alertOn: boolean = false;
+    alertMessage : string;
 
     constructor() {
         this.active = true;
+        this.alertMessage = `<strong>Opz!</strong> Deu erro!`;
     }
+
     ngOnInit() {}
 
     public onSearch = ( value ) : void => {

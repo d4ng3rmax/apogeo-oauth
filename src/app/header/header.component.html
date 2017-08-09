@@ -1,3 +1,27 @@
-<header>
-    header
+<header class="container-fluid">
+    <ul class="nav nav-pills">
+
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/question/list" routerLinkActive="active">Perguntas</a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">Páginas</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" routerLink="/page/list">Listagem das páginas</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" routerLink="/page">Criar uma página</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">Questionário</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" routerLink="/survey/list">Listagem dos questionários</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" routerLink="/survey">Criar um questionário</a>
+            </div>
+        </li>
+        
+    </ul>
 </header>
