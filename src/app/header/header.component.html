@@ -1,26 +1,16 @@
 <header class="container-fluid">
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills" *ngIf="menuEnabled">
 
         <li class="nav-item">
             <a class="nav-link" routerLink="/question/list" routerLinkActive="active">Frases</a>
         </li>
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">Páginas</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" routerLink="/page/list">Listagem das páginas</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" routerLink="/page">Criar uma página</a>
-            </div>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/page/list" routerLinkActive="active">Páginas</a>
         </li>
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">Questionário</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" routerLink="/survey/list">Listagem dos questionários</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" routerLink="/survey">Criar um questionário</a>
-            </div>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/survey/list" routerLinkActive="active">Questionários</a>
         </li>
 
     </ul>

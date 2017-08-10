@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HeaderComponent } from './../header/header.component';
 import { QuestionListComponent } from './../question-list/question-list.component';
 import { QuestionListService } from './../shared/question-list.service';
 import { Question } from './../shared/models/question.model';
@@ -14,13 +15,16 @@ import { Page } from './../shared/models/page.model';
     providers: [ QuestionListService, PagesListService, PagesPersistService ]
 })
 export class PageComponent implements OnInit {
-    
+
+    @ViewChild( HeaderComponent ) header : HeaderComponent;
+
+    pageInstance : this;
     urlId : number;
     pageTitle: string;
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     pageItems : Page;
-    
+
     constructor(
         private route: ActivatedRoute,
         private questionListService : QuestionListService,
@@ -30,11 +34,12 @@ export class PageComponent implements OnInit {
         this.urlId = ( this.route.snapshot.params['id'] ) ? this.route.snapshot.params['id'] : false;
         this.pageItems = new Page( 0, "", {}, false );
     }
-    
+
     async ngOnInit() {
-        
+        this.header.menuEnabled = false;
+
         let avaliableItemsAll = await this.questionListService.getResult();
-        
+
         if ( this.urlId ) {
             let serverPageItems = await this.pagesListService.getSingleResult( this.urlId );
             this.pageItems = new Page( serverPageItems.id, serverPageItems.title, serverPageItems.questionOrder, serverPageItems.active );
@@ -46,35 +51,35 @@ export class PageComponent implements OnInit {
             this.avaliableItems = avaliableItemsAll;
         }
     }
-    
+
     moveItem = ( originSelect, from, to ) : void => {
-        
+
         for ( let i = originSelect.length - 1; i >= 0; i-- ) {
-            
+
             if ( originSelect[ i ].selected == false )
                 continue;
-            
+
             let question = new Question(
                 originSelect[ i ].value,
                 originSelect[ i ].text,
                 true
             );
-            
+
             to.push( question );
             from.splice( from.findIndex( q => q.question == question.question && q.id == question.id ), 1 );
         }
     }
-    
+
     moveAll = ( from, to ) : void => {
         from.forEach(el => {
             to.push( el );
         });
-        
+
         from.length = 0;
     }
-    
+
     moveTop = ( select, arrSelected ) : void => {
-        
+
         for ( var i = 0; i < select.length; i++ ) {
             if ( select[ i ].selected == true ) {
                 let selectedItem = arrSelected.splice( i, 1 );
@@ -82,33 +87,33 @@ export class PageComponent implements OnInit {
             }
         }
     }
-    
+
     moveUp = ( select, arrSelected ) : void => {
-        
+
         for ( let i = select.length - 1; i >= 0; i-- ) {
             if ( select[ i ].selected != true || i == 0 )
                 continue;
-            
+
             let selectedItem = arrSelected.splice( i, 1 );
             arrSelected.splice( i - 1, 0, selectedItem[ 0 ] );
         }
     }
-    
+
     moveDown = ( select, arrSelected ) : void => {
         let selectCount = select.length;
-        
+
         for ( let i = 0; i < select.length; i++ ) {
             if ( select[ i ].selected != true || i == selectCount )
                 continue;
-            
+
             let selectedItem = arrSelected.splice( i, 1 );
             arrSelected.splice( i + 1, 0, selectedItem[ 0 ] );
         }
     }
-    
+
     moveBottom =( select, arrSelected ) : void => {
         let selectCount = select.length;
-        
+
         for ( let i = select.length - 1; i >= 0; i-- ) {
             if ( select[ i ].selected == true ) {
                 let selectedItem = arrSelected.splice( i, 1 );
@@ -116,7 +121,7 @@ export class PageComponent implements OnInit {
             }
         }
     }
-     
+
     avaliableOnThisPage =( all ) : void => {
 
         for ( let prop in this.pageItems.questionOrder ) {
@@ -125,7 +130,7 @@ export class PageComponent implements OnInit {
 
         this.avaliableItems = all;
     }
-    
+
     selectedOnThisPage =( all ) : void => {
         for ( let i = 0; i < all.length; i++ ) {
             for ( let prop in this.pageItems.questionOrder ) {
@@ -135,21 +140,21 @@ export class PageComponent implements OnInit {
             }
         }
     }
-    
+
     populatedPage =() : Page => {
         let qo = new Page( 1, this.pageTitle, {}, true );
-        
+
         for ( let i = 0; i < this.selectedItems.length; i++ ) {
             qo.questionOrder[ i + 1 ] = { "id" : this.selectedItems[ i ].id }
         }
         return qo;
     }
-    
-    save = () : void => {
+
+    save =() : void => {
         this.pagesPersistService.createData( this.populatedPage() );
     }
-    
-    update = () : void => {
+
+    update =() : void => {
         this.pagesPersistService.updateData( this.urlId, this.populatedPage() );
     }
 }
