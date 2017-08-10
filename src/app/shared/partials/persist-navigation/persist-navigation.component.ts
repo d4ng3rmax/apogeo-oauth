@@ -8,7 +8,9 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 export class PersistNavigationComponent implements OnInit {
 
     @Input() urlId : number;
+    @Input() listPath : String;
     @Output() save = new EventEmitter<any>();
+    @Output() update = new EventEmitter<any>();
 
     constructor() { }
 
@@ -19,6 +21,8 @@ export class PersistNavigationComponent implements OnInit {
         this.save.emit();
     }
 
-    onUpdate =() : void => {}
+    onUpdate =() : void => {
+        this.update.emit();
+    }
 
 }

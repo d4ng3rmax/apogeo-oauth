@@ -1,9 +1,9 @@
- <app-header></app-header>
+ <app-header [menuEnabled]="menuEnabled"></app-header>
 
 <section>
     <div class="container-fluid">
 
-        <persist-navigation (save)="save($event)"></persist-navigation>
+        <persist-navigation (save)="save($event)" (update)="update($event)" [listPath]="listPath" [urlId]="urlId"></persist-navigation>
 
         <div class="row mg-top-2">
             <div class="col-12 col-md-3 form-group">

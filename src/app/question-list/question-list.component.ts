@@ -11,6 +11,7 @@ export class QuestionListComponent implements OnInit {
 
     @ViewChild( DataGridComponent ) dataGrid : DataGridComponent;
 
+    menuEnabled : boolean = true;
     active : boolean;
     alertClass: string;
     alertOn: boolean = false;

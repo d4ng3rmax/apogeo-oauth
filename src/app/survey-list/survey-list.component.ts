@@ -11,6 +11,7 @@ export class SurveyListComponent implements OnInit {
 
     @ViewChild( DataGridSurveyComponent ) dataGrid : DataGridSurveyComponent;
 
+    menuEnabled : boolean = true;
     active : boolean;
 
     constructor() {

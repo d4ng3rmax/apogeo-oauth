@@ -45,14 +45,15 @@ export class DataGridComponent implements OnInit {
     @ViewChild( CreateModalComponent )
         modalHtml: CreateModalComponent;
 
-    @ViewChild(EditModalComponent)
+    @ViewChild( EditModalComponent )
         modalHtmlEdit: EditModalComponent;
 
     settings = {
         mode: 'external',
         add: {
+            type:'html',
             confirmCreate: true,
-            addButtonContent: '<i class="fa fa-plus"><span>Adicionar Pergunta</span></i>',
+            addButtonContent: '<i class="fa fa-plus"><span> Adicionar Frase</span></i>',
             createButtonContent: '<i class="fa fa-check"><span>Criar</span></i>',
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
         },

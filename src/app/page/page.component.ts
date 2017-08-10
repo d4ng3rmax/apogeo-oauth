@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HeaderComponent } from './../header/header.component';
 import { QuestionListComponent } from './../question-list/question-list.component';
 import { QuestionListService } from './../shared/question-list.service';
 import { Question } from './../shared/models/question.model';
@@ -16,9 +15,8 @@ import { Page } from './../shared/models/page.model';
 })
 export class PageComponent implements OnInit {
 
-    @ViewChild( HeaderComponent ) header : HeaderComponent;
-
-    pageInstance : this;
+    menuEnabled : boolean = false;
+    listPath : string = "/page/list";
     urlId : number;
     pageTitle: string;
     avaliableItems : Array<any> = [];
@@ -36,8 +34,6 @@ export class PageComponent implements OnInit {
     }
 
     async ngOnInit() {
-        this.header.menuEnabled = false;
-
         let avaliableItemsAll = await this.questionListService.getResult();
 
         if ( this.urlId ) {

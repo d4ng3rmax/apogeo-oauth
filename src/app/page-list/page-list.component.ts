@@ -11,6 +11,7 @@ export class PageListComponent implements OnInit {
 
     @ViewChild( DataGridPagesComponent ) dataGrid : DataGridPagesComponent;
 
+    menuEnabled : boolean = true;
     active : boolean;
 
     constructor() {
