@@ -27,7 +27,7 @@ export class DataGridComponent implements OnInit {
 
     listServer : any;
     persistServer : any;
-    source: LocalDataSource;
+    source : LocalDataSource;
 
     constructor(
         public http: Http,
@@ -134,33 +134,19 @@ export class DataGridComponent implements OnInit {
             this.modalHtmlEdit.openModal( event, this.source );
         }
 
-        // onCreateConfirm( event ) {
-        //     if ( window.confirm( 'Confirma a criação dessa frase?' ) ) {
-        //         // event.newData['name'] += ' + added in code';
-        //         event.newData['active'] = event.newData['active'];
-        //         let editService = this.persistServer.createData( 1, event.newData );
-        //         event.confirm.resolve( event.newData );
-        //     } else {
-        //         event.confirm.reject();
-        //     }
-        // }
-
-        // onSaveConfirm( event ) {
-        //     if ( window.confirm( 'Confirma a atualização dessa frase?' ) ) {
-        //         let createService = this.persistServer.updateData( event.newData['id'], event.newData );
-        //         event.confirm.resolve( event.newData );
-        //     } else {
-        //         event.confirm.reject();
-        //     }
-        // }
-
         onDeleteConfirm( event ) {
             if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
                 let createService = this.persistServer.deleteData( event.data['id'] );
-                this.source.remove( event.data );
+                //this.source.remove( event.data );
+                console.info( createService );
             } else {
                 return false;
             }
+        }
+
+        public alertOn =( obj ) : void => {
+            console.info( "xxxy" );
+            console.info( obj );
         }
 
     }

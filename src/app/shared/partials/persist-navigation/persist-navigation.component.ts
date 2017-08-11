@@ -9,8 +9,9 @@ export class PersistNavigationComponent implements OnInit {
 
     @Input() urlId : number;
     @Input() listPath : String;
-    @Output() save = new EventEmitter<any>();
-    @Output() update = new EventEmitter<any>();
+
+    @Output() save : EventEmitter<any> = new EventEmitter();
+    @Output() update : EventEmitter<any> = new EventEmitter();
 
     constructor() { }
 

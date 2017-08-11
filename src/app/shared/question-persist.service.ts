@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -10,6 +10,8 @@ export class QuestionPersistService {
     apiRoot : string = 'https://apogeo-survey-svc.cfapps.io/questions';
     loading : boolean;
     lastRequestCount: number = 0;
+
+    @Output() alertOn : EventEmitter<any> = new EventEmitter();
 
     constructor( private http: Http ) {
         this.loading = false;
@@ -38,12 +40,22 @@ export class QuestionPersistService {
     }
 
     async deleteData( id: number ) : Promise<any> {
+
         this.http.delete( `${ this.apiRoot + '/' + id }`, { headers: this.headers })
             .map( res => res.json() )
             .subscribe(
-                data => console.info( "Excluindo..." ),
-                err => console.error( err ),
-                () => console.log( 'Excluido!' )
+                data => {
+                    console.info( "Excluindo..." );
+                    return 1;
+                },
+                err => {
+                    //console.error( JSON.parse( err._body ).errorMessage );
+                    return JSON.parse( err._body ).errorMessage;
+                },
+                () => {
+                    console.log( 'Excluido!' );
+                    return 1;
+                }
             );
     }
 }

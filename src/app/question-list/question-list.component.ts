@@ -14,7 +14,6 @@ export class QuestionListComponent implements OnInit {
     menuEnabled : boolean = true;
     active : boolean;
     alertClass: string;
-    alertOn: boolean = false;
     alertMessage : string;
 
     constructor() {
@@ -24,12 +23,17 @@ export class QuestionListComponent implements OnInit {
 
     ngOnInit() {}
 
-    public onSearch = ( value ) : void => {
+    public onSearch =( value ) : void => {
         this.dataGrid.onSearch( value, this.active );
     }
 
-    public clearFilter = ( search ) : void => {
+    public clearFilter =( search ) : void => {
         this.dataGrid.clearFilter();
         search.reset();
+    }
+
+    public alertOn =( obj ) : void => {
+        console.info( "lsdlsdl" );
+        console.info( obj );
     }
 }
