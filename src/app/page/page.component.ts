@@ -146,11 +146,11 @@ export class PageComponent implements OnInit {
         return qo;
     }
 
-    save =() : void => {
+    save =( event ) : void => {
         this.pagesPersistService.createData( this.populatedPage() );
     }
 
-    update =() : void => {
+    update =( event ) : void => {
         this.pagesPersistService.updateData( this.urlId, this.populatedPage() );
     }
 }

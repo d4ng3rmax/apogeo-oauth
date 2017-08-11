@@ -147,11 +147,11 @@ export class SurveyComponent implements OnInit {
         return qo;
     }
 
-    save = () : void => {
+    save =( event ) : void => {
         this.surveyPersistService.createData( this.populatedSurvey() );
     }
 
-    update = () : void => {
+    update =( event ) : void => {
         this.surveyPersistService.updateData( this.urlId, this.populatedSurvey() );
     }
 }
