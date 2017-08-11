@@ -37,21 +37,36 @@ a.ng2-smart-action {
 }
 
 .ng2-smart-action-add-add {
-        color: #ffffff !important;
-        background-color: #6958CC;
-        border-color: #6A58C4;
+    color: #ffffff !important;
+    background-color: #6958CC;
+    border-color: #6A58C4;
 }
 
 a.ng2-smart-action-edit-edit {
-    color: #fff !important;
-    background-color: #286090;
-    border-color: #204d74;
+    // color: #fff !important;
+    // background-color: #286090;
+    // border-color: #204d74;
+
+    color: #286090;
+    background-color: #fff;
+    border: 1px solid #ddd;
 }
 
 a.ng2-smart-action-delete-delete {
-    color: #fff !important;
-    background-color: #d9534f;
-    border-color: #d43f3a;
+    // color: #fff !important;
+    // background-color: #d9534f;
+    // border-color: #d43f3a;
+
+    color: #d9534f !important;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+a.ng2-smart-action-edit-edit,
+a.ng2-smart-action-delete-delete {
+    &:hover {
+        background-color: #f1f1f1;
+    }
 }
 
 a.ng2-smart-action-add-create,

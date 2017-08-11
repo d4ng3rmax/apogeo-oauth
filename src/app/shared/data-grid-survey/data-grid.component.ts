@@ -43,12 +43,12 @@ export class DataGridSurveyComponent implements OnInit {
         add: {
             confirmCreate: true,
             addButtonContent: '<i class="fa fa-plus"><span>Adicionar Questionário</span></i>',
-            createButtonContent: '<i class="fa fa-check"><span>Criar</span></i>',
+            createButtonContent: '<i class="fa fa-pencil"><span>Criar</span></i>',
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
         },
         edit: {
             confirmSave: true,
-            editButtonContent: '<i class="fa fa-edit"><span>Editar</span></i>',
+            editButtonContent: '<i class="fa fa-pencil"><span>Editar</span></i>',
             saveButtonContent: '<i class="fa fa-check"><span>Salvar</span></i>',
             cancelButtonContent: '<i class="fa fa-close"><span>Cancelar</span></i>',
         },
