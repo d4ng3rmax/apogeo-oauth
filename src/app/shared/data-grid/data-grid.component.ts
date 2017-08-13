@@ -6,10 +6,21 @@ import { QuestionPersistService } from './../question-persist.service';
 import { CreateModalComponent } from './../partials/create-modal.component';
 import { EditModalComponent } from './../partials/edit-modal.component';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Alert } from './../models/alert.model';
 
 @Component({
     selector: 'data-grid',
-    template: `<ng2-smart-table
+    template: `<div class="row">
+        <div class="col-12">
+            <div class="alert {{ persistServer.alert.cssClass }} alert-dismissible fade show" role="alert" *ngIf="persistServer.alert.status">
+                <button type="button" class="close" aria-label="Close" (click)="closeAlert(); false;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span [innerHTML]="persistServer.alert.title"></span>{{ persistServer.alert.message }} 
+            </div>
+        </div>
+    </div>
+    <ng2-smart-table
     [settings]="settings"
     [source]="source"
     (create)="onCreate($event)"
@@ -28,6 +39,7 @@ export class DataGridComponent implements OnInit {
     listServer : any;
     persistServer : any;
     source : LocalDataSource;
+    alert: Alert;
 
     constructor(
         public http: Http,
@@ -36,6 +48,7 @@ export class DataGridComponent implements OnInit {
     ) {
         this.listServer = this.questionList;
         this.persistServer = questionPersistService;
+        this.alert = this.persistServer.alert;
     }
 
     async ngOnInit() {
@@ -136,17 +149,14 @@ export class DataGridComponent implements OnInit {
 
         onDeleteConfirm( event ) {
             if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
-                let createService = this.persistServer.deleteData( event.data['id'] );
-                //this.source.remove( event.data );
-                console.info( createService );
+                this.persistServer.deleteData( event.data['id'] )
+                //console.info( response.error );
             } else {
                 return false;
             }
         }
 
-        public alertOn =( obj ) : void => {
-            console.info( "xxxy" );
-            console.info( obj );
+        closeAlert =() : void => {
+            this.persistServer.alert.status = false;
         }
-
     }

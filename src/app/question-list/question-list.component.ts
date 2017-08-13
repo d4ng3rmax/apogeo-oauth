@@ -11,14 +11,11 @@ export class QuestionListComponent implements OnInit {
 
     @ViewChild( DataGridComponent ) dataGrid : DataGridComponent;
 
-    menuEnabled : boolean = true;
     active : boolean;
-    alertClass: string;
-    alertMessage : string;
+    menuEnabled : boolean = true;
 
     constructor() {
         this.active = true;
-        this.alertMessage = `<strong>Opz!</strong> Deu erro!`;
     }
 
     ngOnInit() {}
@@ -32,8 +29,8 @@ export class QuestionListComponent implements OnInit {
         search.reset();
     }
 
-    public alertOn =( obj ) : void => {
-        console.info( "lsdlsdl" );
-        console.info( obj );
-    }
+    // public alertOn =( obj ) : void => {
+    //     console.info( "lsdlsdl" );
+    //     console.info( obj );
+    // }
 }

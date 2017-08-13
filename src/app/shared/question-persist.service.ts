@@ -1,7 +1,8 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
+import { Alert } from './models/alert.model';
 
 @Injectable()
 export class QuestionPersistService {
@@ -10,13 +11,13 @@ export class QuestionPersistService {
     apiRoot : string = 'https://apogeo-survey-svc.cfapps.io/questions';
     loading : boolean;
     lastRequestCount: number = 0;
-
-    @Output() alertOn : EventEmitter<any> = new EventEmitter();
+    alert : Alert;
 
     constructor( private http: Http ) {
         this.loading = false;
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
+        this.alert = new Alert( 0, "Title", "Message", "alert-danger", false );
     }
 
     async createData( obj : Object ) : Promise<any> {
@@ -46,16 +47,23 @@ export class QuestionPersistService {
             .subscribe(
                 data => {
                     console.info( "Excluindo..." );
-                    return 1;
                 },
                 err => {
-                    //console.error( JSON.parse( err._body ).errorMessage );
-                    return JSON.parse( err._body ).errorMessage;
+                    console.info( "deu erro..." );
+                    this.setAlert( 0, "Opz!", JSON.parse( err._body ).errorMessage, "alert-danger", 1 );
+                    
+                    setTimeout( ()=> {
+                        this.alert.status = false;
+                    }, 5000);
                 },
                 () => {
                     console.log( 'Excluido!' );
-                    return 1;
                 }
             );
     }
+
+    private setAlert =( type, title, message, cssClass, status ) => {
+        this.alert = new Alert( type, `<strong>${ title }</strong> `, message, cssClass, status );
+    }
+
 }

@@ -2,20 +2,9 @@
 
 <section>
     <div class="container-fluid">
-
-         <div class="row">
-            <div class="col-12">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="alertOn">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div [innerHTML]="alertMessage"></div>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="row no-mg">
-
+            
             <div class="col-12 col-sm-2 box-filter">
                 <h4 class="text-info">Filtro das frases</h4>
                 <br />
@@ -29,7 +18,7 @@
                             <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" [(ngModel)]="active" (click)="active = true; onSearch( search.value )" [checked]="active == true" />
                             Ativo
                         </label>
-
+                        
                         <label class="form-check-label">
                             <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" [(ngModel)]="active" (click)="active = false; onSearch( search.value )" [checked]="active == false" />
                             Inativo
@@ -42,11 +31,11 @@
                     </div>
                 </form>
             </div>
-
+            
             <div class="col no-pd-right">
                 <data-grid class="table table-hover table-bordered"></data-grid>
             </div>
         </div>
     </div>
-
+    
 </section>
