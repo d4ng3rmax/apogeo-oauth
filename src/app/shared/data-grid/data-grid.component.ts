@@ -149,8 +149,13 @@ export class DataGridComponent implements OnInit {
 
         onDeleteConfirm( event ) {
             if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
+                this.persistServer.alert.status = false;
                 this.persistServer.deleteData( event.data['id'] )
-                //console.info( response.error );
+
+                setTimeout( ()=> {
+                    if ( this.persistServer.alert.status === false ) { this.source.remove( event.data ) }
+                }, 1000);
+            
             } else {
                 return false;
             }

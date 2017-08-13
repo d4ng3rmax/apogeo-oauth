@@ -46,6 +46,7 @@ export class CreateModalComponent implements OnInit {
 
         this.add( this.question );
         this.modal.close();
+        this.userDetails.setValue({ pergunta : "", active: true });
     }
 
     add( value: Question ): void {
@@ -54,9 +55,14 @@ export class CreateModalComponent implements OnInit {
             return;
         }
 
-        this.questionPersistService.createData( value );
-        this.source.add( this.question );
-        this.source.refresh();
+        this.questionPersistService.createData( value )
+            .then( data => {
+                
+                this.question.id = data.id;
+                this.source.add( this.question );
+                this.source.refresh();
+
+            }, error => console.info( error ) );
     }
 
     close() {

@@ -21,13 +21,16 @@ export class QuestionPersistService {
     }
 
     async createData( obj : Object ) : Promise<any> {
-        this.http.post( `${ this.apiRoot }`, JSON.stringify( obj ), { headers: this.headers })
-            .map( res => res.json() )
-            .subscribe(
-                data => console.info( "Criando..." ),
-                err => console.error( err ),
-                () => console.log( 'Criado!' )
-            );
+        return this.http.post( `${ this.apiRoot }`, JSON.stringify( obj ), { headers: this.headers })
+            .toPromise()
+            .then( this.extractData )
+            .catch( this.handleErrorPromise );
+            // .map( res => res.json() )
+            // .subscribe(
+            //     data => console.info( "Criando..." ),
+            //     err => console.error( err ),
+            //     () => console.log( 'Criado!' )
+            // );
     }
 
     async updateData( id: number, obj : Object ) : Promise<any> {
@@ -50,11 +53,11 @@ export class QuestionPersistService {
                 },
                 err => {
                     console.info( "deu erro..." );
-                    this.setAlert( 0, "Opz!", JSON.parse( err._body ).errorMessage, "alert-danger", 1 );
+                    this.setAlert( 0, "Opz!", JSON.parse( err._body ).errorMessage, "alert-danger", true );
                     
-                    setTimeout( ()=> {
-                        this.alert.status = false;
-                    }, 5000);
+                    // setTimeout( ()=> {
+                    //     this.alert.status = false;
+                    // }, 5000);
                 },
                 () => {
                     console.log( 'Excluido!' );
@@ -64,6 +67,16 @@ export class QuestionPersistService {
 
     private setAlert =( type, title, message, cssClass, status ) => {
         this.alert = new Alert( type, `<strong>${ title }</strong> `, message, cssClass, status );
+    }
+
+    private extractData(res: Response) {
+        let body = res.json();
+        return body || {};
+    }
+
+    private handleErrorPromise (error: Response | any) {
+        console.error( error.message || error );
+        return Promise.reject( error.message || error );
     }
 
 }
