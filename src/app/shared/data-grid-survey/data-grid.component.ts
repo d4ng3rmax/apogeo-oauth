@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-import { SurveyListService } from './../survey-list.service';
-import { SurveyPersistService } from './../survey-persist.service';
+import { SurveyService } from './../survey.service';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Alert } from './../models/alert.model';
 
 @Component({
     selector: 'data-grid-survey',
@@ -15,27 +15,24 @@ import { LocalDataSource } from 'ng2-smart-table';
     (delete)="onDeleteConfirm($event)"></ng2-smart-table>
     `,
     styleUrls: ['./../data-grid/data-grid.component.scss'],
-    providers: [ SurveyListService, SurveyPersistService ],
+    providers: [ SurveyService ],
     encapsulation: ViewEncapsulation.None
 })
 export class DataGridSurveyComponent implements OnInit {
     
-    listServer : any;
-    persistServer : any;
     source: LocalDataSource;
+    alert : Alert;
     
     constructor(
         private router: Router, 
         public http: Http,
-        private pageList : SurveyListService,
-        private questionPersistService : SurveyPersistService
+        private service : SurveyService
     ) {
-        this.listServer = this.pageList;
-        this.persistServer = questionPersistService;
+        this.alert = new Alert( 0, "Title", "Message", "cssClass", false );
     }
     
     async ngOnInit() {
-        this.source = new LocalDataSource( await this.listServer.getResult() );
+        this.source = new LocalDataSource( await this.service.getResult() );
     }
     
     settings = {
@@ -104,8 +101,14 @@ export class DataGridSurveyComponent implements OnInit {
         
         onDeleteConfirm( event ) {
             if ( window.confirm( 'Deseja mesmo excluir esse Questionário?' ) ) {
-                let createService = this.persistServer.deleteData( event.data['id'] );
-                this.source.remove( event.data );
+
+                this.service.deleteData( event.data['id'] )
+                    .then( data => {
+                        this.source.remove( event.data );
+                        this.buildAlert( 1, "Questionário excluido com sucesso!" );
+                    }, error => {
+                        this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
+                    });
             } else {
                 return false;
             }
@@ -113,6 +116,28 @@ export class DataGridSurveyComponent implements OnInit {
         
         onEdit( event: any ) {
             this.router.navigate( ['/survey', event.data.id ] );
+        }
+
+        private buildAlert =( type : number, msg : string ) : void => {
+            if ( type == 1 ) {
+                this.alert.type = 1;
+                this.alert.title = "";
+                this.alert.message = msg;
+                this.alert.cssClass = "alert-success";
+                this.alert.status = true;
+            } else {
+                this.alert.type = 0;
+                this.alert.title = "Opz! "
+                this.alert.message = msg;
+                this.alert.cssClass = "alert-danger";
+                this.alert.status = true;
+                console.error( msg );
+            }
+
+            setTimeout( ()=> {
+                this.alert.status = false;
+                console.clear();
+            }, 15000);
         }
         
     }

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PageListComponent } from './../page-list/page-list.component';
-import { PagesListService } from './../shared/pages-list.service';
+import { SurveyService } from './../shared/survey.service';
+import { PageService } from './../shared/page.service';
 import { Page } from './../shared/models/page.model';
-import { SurveyListService } from './../shared/survey-list.service';
-import { SurveyPersistService } from './../shared/survey-persist.service';
 import { Survey } from './../shared/models/survey.model';
+import { Alert } from './../shared/models/alert.model';
 
 @Component({
     selector: 'app-survey',
     templateUrl: './survey.component.html',
     styleUrls: ['./../page/page.component.scss'],
-    providers: [ PagesListService, SurveyListService, SurveyPersistService ]
+    providers: [ SurveyService, PageService ]
 })
 export class SurveyComponent implements OnInit {
 
@@ -22,15 +22,17 @@ export class SurveyComponent implements OnInit {
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     surveyItems : Survey;
+    alert : Alert;
 
     constructor(
         private route: ActivatedRoute,
-        private pagesListService : PagesListService,
-        private surveyListService : SurveyListService,
-        private surveyPersistService : SurveyPersistService
+        private router: Router,
+        private service : SurveyService,
+        private pagesListService : PageService
     ) {
         this.urlId = ( this.route.snapshot.params['id'] ) ? this.route.snapshot.params['id'] : false;
         this.surveyItems = new Survey( 0, "", {}, false );
+        this.alert = new Alert( 0, "Title", "Message", "cssClass", false );
     }
 
     async ngOnInit() {
@@ -38,7 +40,7 @@ export class SurveyComponent implements OnInit {
         let avaliableItemsAll = await this.pagesListService.getResult();
 
         if ( this.urlId ) {
-            let serverSurveyItems = await this.surveyListService.getSingleResult( this.urlId );
+            let serverSurveyItems = await this.service.getSingleResult( this.urlId );
             this.surveyItems = new Survey( serverSurveyItems.id, serverSurveyItems.title, serverSurveyItems.pageOrder, serverSurveyItems.active );
             this.selectedOnThisSurvey( avaliableItemsAll );
             this.avaliableOnThisSurvey( avaliableItemsAll );
@@ -148,10 +150,39 @@ export class SurveyComponent implements OnInit {
     }
 
     save =( event ) : void => {
-        this.surveyPersistService.createData( this.populatedSurvey() );
+        this.service.createData( this.populatedSurvey() )
+            .then( data => {
+                this.buildAlert( 1, "Questionário criado com sucesso!" );
+
+                setTimeout( ()=> {
+                    this.router.navigate( ['/survey/list' ] );
+                }, 2000);
+
+            }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
 
     update =( event ) : void => {
-        this.surveyPersistService.updateData( this.urlId, this.populatedSurvey() );
+        this.service.updateData( this.urlId, this.populatedSurvey() )
+            .then( data => {
+                this.buildAlert( 1, "Questionário atualizado com sucesso!" );
+
+            }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+    }
+
+    private buildAlert =( type : number, msg : string ) : void => {
+        if ( type == 1 ) {
+            this.alert.type = 1;
+            this.alert.title = "";
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-success";
+            this.alert.status = true;
+        } else {
+            this.alert.type = 0;
+            this.alert.title = "Opz! "
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-danger";
+            this.alert.status = true;
+            console.error( msg );
+        }
     }
 }

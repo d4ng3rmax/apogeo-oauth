@@ -1,6 +1,6 @@
-import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { QuestionPersistService } from './../question-persist.service';
+import { QuestionService } from './../question.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { Question } from './../models/question.model';
 
@@ -14,6 +14,7 @@ export class EditModalComponent implements OnInit {
     question: Question;
     userDetails: FormGroup;
     source: LocalDataSource;
+    dataGrid : any;
     htmlActive : boolean;
     data: any;
 
@@ -22,7 +23,7 @@ export class EditModalComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private questionPersistService: QuestionPersistService
+        private service: QuestionService
     ) {}
 
     ngOnInit(): void {
@@ -46,9 +47,10 @@ export class EditModalComponent implements OnInit {
         this.modal.open( size );
     }
 
-    openModal( event, source ) {
+    openModal( dataGrid, event ) {
+        this.dataGrid = dataGrid;
         this.data = event.data;
-        this.source = source;
+        this.source = dataGrid.source;
         this.open( 'md' );
     }
 
@@ -67,9 +69,15 @@ export class EditModalComponent implements OnInit {
             return;
         }
 
-        this.questionPersistService.updateData( value.id, value );
-        this.source.update( this.data, value );
-        this.source.refresh();
+        this.service.updateData( value.id, value )
+        .then( data => {
+            
+            this.question.id = data.id;
+            this.source.update( this.data, value );
+            this.source.refresh();
+            this.dataGrid.buildAlert( 1, "Frase criada com sucesso!" );
+
+        }, error => this.dataGrid.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
 
     close() {

@@ -12,16 +12,17 @@
 
                 <div class="form-check">
                     <label class="form-check-label mg-right">
-                        <input type="radio" class="form-check-input" formControlName="active" id="optionsRadios1" value="true" checked />
+                        <input type="radio" class="form-check-input" formControlName="active" value="true" checked="checked" />
                         Ativo
                     </label>
 
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" formControlName="active" id="optionsRadios1" value="false" />
+                        <input type="radio" class="form-check-input" formControlName="active" value="false" />
                         Inativo
                     </label>
                 </div>
             </div>
+
             <button type="submit" class="btn btn-success" [disabled]="userDetails.invalid">Cadastrar</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancelar</button>
         </form>

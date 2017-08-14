@@ -29,8 +29,8 @@ export class QuestionListComponent implements OnInit {
         search.reset();
     }
 
-    // public alertOn =( obj ) : void => {
-    //     console.info( "lsdlsdl" );
-    //     console.info( obj );
-    // }
+    public closeAlert =() : void => {
+        this.dataGrid.alert.status = false;
+    }
+
 }

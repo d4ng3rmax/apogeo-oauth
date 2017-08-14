@@ -11,8 +11,8 @@ export class PageListComponent implements OnInit {
 
     @ViewChild( DataGridPagesComponent ) dataGrid : DataGridPagesComponent;
 
-    menuEnabled : boolean = true;
     active : boolean;
+    menuEnabled : boolean = true;
 
     constructor() {
         this.active = true;
@@ -26,6 +26,10 @@ export class PageListComponent implements OnInit {
     public clearFilter = ( search ) : void => {
         this.dataGrid.clearFilter();
         search.reset();
+    }
+
+    public closeAlert =() : void => {
+        this.dataGrid.alert.status = false;
     }
 
 }

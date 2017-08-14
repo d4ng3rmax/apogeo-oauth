@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation, Output } from '@angular/core';
 import { Http } from '@angular/http';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { QuestionListService } from './../question-list.service';
-import { QuestionPersistService } from './../question-persist.service';
+import { QuestionService } from './../question.service';
 import { CreateModalComponent } from './../partials/create-modal.component';
 import { EditModalComponent } from './../partials/edit-modal.component';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -10,49 +9,33 @@ import { Alert } from './../models/alert.model';
 
 @Component({
     selector: 'data-grid',
-    template: `<div class="row">
-        <div class="col-12">
-            <div class="alert {{ persistServer.alert.cssClass }} alert-dismissible fade show" role="alert" *ngIf="persistServer.alert.status">
-                <button type="button" class="close" aria-label="Close" (click)="closeAlert(); false;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <span [innerHTML]="persistServer.alert.title"></span>{{ persistServer.alert.message }} 
-            </div>
-        </div>
-    </div>
-    <ng2-smart-table
+    template: `<ng2-smart-table
     [settings]="settings"
     [source]="source"
     (create)="onCreate($event)"
     (edit)="onSave($event)"
-    (delete)="onDeleteConfirm($event)"
-    (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
+    (delete)="onDeleteConfirm($event)"></ng2-smart-table>
     <mm-create-modal></mm-create-modal>
     <mm-edit-modal></mm-edit-modal>
     `,
     styleUrls: ['./data-grid.component.scss'],
-    providers: [ QuestionListService, QuestionPersistService ],
+    providers: [ QuestionService ],
     encapsulation: ViewEncapsulation.None
 })
 export class DataGridComponent implements OnInit {
 
-    listServer : any;
-    persistServer : any;
     source : LocalDataSource;
-    alert: Alert;
+    alert : Alert;
 
     constructor(
         public http: Http,
-        private questionList : QuestionListService,
-        private questionPersistService : QuestionPersistService
+        private service : QuestionService
     ) {
-        this.listServer = this.questionList;
-        this.persistServer = questionPersistService;
-        this.alert = this.persistServer.alert;
+        this.alert = new Alert( 0, "Title", "Message", "cssClass", false );
     }
 
     async ngOnInit() {
-        this.source = new LocalDataSource( await this.listServer.getResult() );
+        this.source = new LocalDataSource( await this.service.getResult() );
     }
 
     @ViewChild( CreateModalComponent )
@@ -140,28 +123,48 @@ export class DataGridComponent implements OnInit {
         }
 
         onCreate( event: any ) {
-            this.modalHtml.openModal( this.source );
+            this.modalHtml.openModal( this);
         }
 
         onSave( event: any ) {
-            this.modalHtmlEdit.openModal( event, this.source );
+            this.modalHtmlEdit.openModal( this, event);
         }
 
-        onDeleteConfirm( event ) {
-            if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
-                this.persistServer.alert.status = false;
-                this.persistServer.deleteData( event.data['id'] )
-
-                setTimeout( ()=> {
-                    if ( this.persistServer.alert.status === false ) { this.source.remove( event.data ) }
-                }, 1000);
+        onDeleteConfirm ( event ) {
             
+            if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
+
+                this.service.deleteData( event.data['id'] )
+                    .then( data => {
+                        this.source.remove( event.data );
+                        this.buildAlert( 1, "Frase excluida com sucesso!" );
+                    }, error => {
+                        this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
+                    });
             } else {
                 return false;
             }
         }
 
-        closeAlert =() : void => {
-            this.persistServer.alert.status = false;
+        private buildAlert =( type : number, msg : string ) : void => {
+            if ( type == 1 ) {
+                this.alert.type = 1;
+                this.alert.title = "";
+                this.alert.message = msg;
+                this.alert.cssClass = "alert-success";
+                this.alert.status = true;
+            } else {
+                this.alert.type = 0;
+                this.alert.title = "Opz! "
+                this.alert.message = msg;
+                this.alert.cssClass = "alert-danger";
+                this.alert.status = true;
+                console.error( msg );
+            }
+
+            setTimeout( ()=> {
+                this.alert.status = false;
+                console.clear();
+            }, 15000);
         }
     }

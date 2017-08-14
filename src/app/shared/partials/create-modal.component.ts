@@ -1,6 +1,6 @@
-import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
+import { Component, ViewChild, Input, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { QuestionPersistService } from './../question-persist.service';
+import { QuestionService } from './../question.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { Question } from './../models/question.model';
 
@@ -11,16 +11,17 @@ import { Question } from './../models/question.model';
 })
 export class CreateModalComponent implements OnInit {
 
-    question: Question;
-    userDetails: FormGroup;
-    source: LocalDataSource;
+    question : Question;
+    userDetails : FormGroup;
+    source : LocalDataSource;
+    dataGrid : any;
 
     @ViewChild( 'modal' )
         modal: CreateModalComponent;
 
     constructor(
         private fb: FormBuilder,
-        private questionPersistService: QuestionPersistService
+        private service: QuestionService,
     ) {}
 
     ngOnInit(): void {
@@ -36,15 +37,16 @@ export class CreateModalComponent implements OnInit {
         this.modal.open( size );
     }
 
-    openModal( source ) {
-        this.source = source;
+    openModal( dataGrid ) {
+        this.dataGrid = dataGrid;
+        this.source = dataGrid.source;
         this.open( 'md' );
     }
 
-    onSubmit({ value }: { value: Object }) {
-        this.question.question = value[ 'pergunta' ];
-
+    onSubmit({ value }: { value: Question }) {
+        this.question = new Question( null, value[ 'pergunta' ], true );
         this.add( this.question );
+
         this.modal.close();
         this.userDetails.setValue({ pergunta : "", active: true });
     }
@@ -55,14 +57,15 @@ export class CreateModalComponent implements OnInit {
             return;
         }
 
-        this.questionPersistService.createData( value )
+        this.service.createData( value )
             .then( data => {
-                
+
                 this.question.id = data.id;
                 this.source.add( this.question );
                 this.source.refresh();
+                this.dataGrid.buildAlert( 1, "Frase criada com sucesso!" );
 
-            }, error => console.info( error ) );
+            }, error => this.dataGrid.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
 
     close() {

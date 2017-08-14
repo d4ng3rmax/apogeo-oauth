@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionListComponent } from './../question-list/question-list.component';
-import { QuestionListService } from './../shared/question-list.service';
+import { PageService } from './../shared/page.service';
+import { QuestionService } from './../shared/question.service';
 import { Question } from './../shared/models/question.model';
-import { PagesListService } from './../shared/pages-list.service';
-import { PagesPersistService } from './../shared/pages-persist.service';
 import { Page } from './../shared/models/page.model';
+import { Alert } from './../shared/models/alert.model';
 
 @Component({
     selector: 'app-page',
     templateUrl: './page.component.html',
     styleUrls: ['./page.component.scss'],
-    providers: [ QuestionListService, PagesListService, PagesPersistService ]
+    providers: [ PageService, QuestionService ]
 })
 export class PageComponent implements OnInit {
 
@@ -22,22 +22,24 @@ export class PageComponent implements OnInit {
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     pageItems : Page;
+    alert : Alert;
 
     constructor(
         private route: ActivatedRoute,
-        private questionListService : QuestionListService,
-        private pagesListService : PagesListService,
-        private pagesPersistService : PagesPersistService
+        private router: Router,
+        private service : PageService,
+        private questionListService : QuestionService
     ) {
         this.urlId = ( this.route.snapshot.params['id'] ) ? this.route.snapshot.params['id'] : false;
         this.pageItems = new Page( 0, "", {}, false );
+        this.alert = new Alert( 0, "Title", "Message", "cssClass", false );
     }
 
     async ngOnInit() {
         let avaliableItemsAll = await this.questionListService.getResult();
 
         if ( this.urlId ) {
-            let serverPageItems = await this.pagesListService.getSingleResult( this.urlId );
+            let serverPageItems = await this.service.getSingleResult( this.urlId );
             this.pageItems = new Page( serverPageItems.id, serverPageItems.title, serverPageItems.questionOrder, serverPageItems.active );
             this.selectedOnThisPage( avaliableItemsAll );
             this.avaliableOnThisPage( avaliableItemsAll );
@@ -147,10 +149,39 @@ export class PageComponent implements OnInit {
     }
 
     save =( event ) : void => {
-        this.pagesPersistService.createData( this.populatedPage() );
+        this.service.createData( this.populatedPage() )
+            .then( data => {
+                this.buildAlert( 1, "Página criada com sucesso!" );
+
+                setTimeout( ()=> {
+                    this.router.navigate( ['/page/list' ] );
+                }, 2000);
+
+            }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
 
     update =( event ) : void => {
-        this.pagesPersistService.updateData( this.urlId, this.populatedPage() );
+        this.service.updateData( this.urlId, this.populatedPage() )
+            .then( data => {
+                this.buildAlert( 1, "Página atualizada com sucesso!" );
+
+            }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+    }
+
+    private buildAlert =( type : number, msg : string ) : void => {
+        if ( type == 1 ) {
+            this.alert.type = 1;
+            this.alert.title = "";
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-success";
+            this.alert.status = true;
+        } else {
+            this.alert.type = 0;
+            this.alert.title = "Opz! "
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-danger";
+            this.alert.status = true;
+            console.error( msg );
+        }
     }
 }

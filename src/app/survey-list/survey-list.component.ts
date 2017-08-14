@@ -28,4 +28,8 @@ export class SurveyListComponent implements OnInit {
         search.reset();
     }
 
+    public closeAlert =() : void => {
+        this.dataGrid.alert.status = false;
+    }
+
 }

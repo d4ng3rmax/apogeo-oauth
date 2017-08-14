@@ -4,6 +4,16 @@
     <div class="container-fluid">
 
         <persist-navigation (save)="save($event)" (update)="update($event)" [listPath]="listPath" [urlId]="urlId"></persist-navigation>
+        <div class="row">
+            <div class="col-12">
+                <div class="alert {{ alert.cssClass }} alert-dismissible fade show" role="alert" *ngIf="alert.status">
+                    <button type="button" class="close" aria-label="Close" (click)="closeAlert(); false;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span [innerHTML]="alert.title"></span>{{ alert.message }} 
+                </div>
+            </div>
+        </div>
 
         <div class="row mg-top-2">
             <div class="col-12 col-md-3 form-group">
