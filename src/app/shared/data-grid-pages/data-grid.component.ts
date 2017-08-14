@@ -61,85 +61,86 @@ export class DataGridPagesComponent implements OnInit {
             title: {
                 title: 'Páginas',
                 editor: {
-                    type : 'textarea' },
-                    width: "70%",
-                    filter: false
+                    type : 'textarea'
                 },
-                active: {
-                    title: 'Ativo',
-                    filter: false
-                }
+                width: "70%",
+                filter: false
             },
-        };
-
-        onCreate() {
-            this.router.navigate( ['/page' ] );
-        }
-        
-        onSearch( query: string = '', active ) {
-            
-            if ( query == '' ) {
-                this.source.reset();
-                return;
-            }
-            
-            this.source.setFilter([
-                {
-                    field: 'title',
-                    search: query
-                },
-                {
-                    field: 'active',
-                    search: active
-                }
-            ], true);
-        }
-        
-        clearFilter =(): void => {
-            this.source.reset();
-        }
-        
-        onDeleteConfirm( event ) {
-            
-            if ( window.confirm( 'Deseja mesmo excluir essa página?' ) ) {
-
-                this.service.deleteData( event.data['id'] )
-                    .then( data => {
-                        this.source.remove( event.data );
-                        this.buildAlert( 1, "Página excluida com sucesso!" );
-                    }, error => {
-                        this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
-                    });
-            } else {
-                return false;
+            active: {
+                title: 'Ativo',
+                filter: false
             }
         }
-        
-        onEdit( event: any ) {
-            this.router.navigate( ['/page', event.data.id ] );
-        }
+    };
 
-        private buildAlert =( type : number, msg : string ) : void => {
-            if ( type == 1 ) {
-                this.alert.type = 1;
-                this.alert.title = "";
-                this.alert.message = msg;
-                this.alert.cssClass = "alert-success";
-                this.alert.status = true;
-            } else {
-                this.alert.type = 0;
-                this.alert.title = "Opz! "
-                this.alert.message = msg;
-                this.alert.cssClass = "alert-danger";
-                this.alert.status = true;
-                console.error( msg );
-            }
-
-            setTimeout( ()=> {
-                this.alert.status = false;
-                console.clear();
-            }, 15000);
-        }
-        
+    onCreate() {
+        this.router.navigate( ['/page' ] );
     }
+    
+    onSearch( query: string = '', active ) {
+        
+        if ( query == '' ) {
+            this.source.reset();
+            return;
+        }
+        
+        this.source.setFilter([
+            {
+                field: 'title',
+                search: query
+            },
+            {
+                field: 'active',
+                search: active
+            }
+        ], true);
+    }
+    
+    clearFilter =(): void => {
+        this.source.reset();
+    }
+    
+    onDeleteConfirm( event ) {
+        
+        if ( window.confirm( 'Deseja mesmo excluir essa página?' ) ) {
+
+            this.service.deleteData( event.data['id'] )
+                .then( data => {
+                    this.source.remove( event.data );
+                    this.buildAlert( 1, "Página excluida com sucesso!" );
+                }, error => {
+                    this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
+                });
+        } else {
+            return false;
+        }
+    }
+    
+    onEdit( event: any ) {
+        this.router.navigate( ['/page', event.data.id ] );
+    }
+
+    private buildAlert =( type : number, msg : string ) : void => {
+        if ( type == 1 ) {
+            this.alert.type = 1;
+            this.alert.title = "";
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-success";
+            this.alert.status = true;
+        } else {
+            this.alert.type = 0;
+            this.alert.title = "Opz! "
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-danger";
+            this.alert.status = true;
+            console.error( msg );
+        }
+
+        setTimeout( ()=> {
+            this.alert.status = false;
+            console.clear();
+        }, 15000);
+    }
+    
+}
     

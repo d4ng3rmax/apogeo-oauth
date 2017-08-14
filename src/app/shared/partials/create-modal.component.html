@@ -6,18 +6,18 @@
         <form novalidate [formGroup]="userDetails" (ngSubmit)="onSubmit(userDetails)">
             <div class="form-group">
                 <label for="pergunta">Frase:</label>
-                <input type="text" style="width: 100%;" class="form-control" formControlName="pergunta" id="pergunta" autofocus>
+                <textarea formControlName="pergunta" cols="30" rows="5" class="form-control" autofocus></textarea>
 
                 <br />
 
                 <div class="form-check">
                     <label class="form-check-label mg-right">
-                        <input type="radio" class="form-check-input" formControlName="active" value="true" checked="checked" />
+                        <input type="radio" class="form-check-input" formControlName="active" value="true" [checked]="htmlActive == true" />
                         Ativo
                     </label>
 
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" formControlName="active" value="false" />
+                        <input type="radio" class="form-check-input" formControlName="active" value="false" [checked]="htmlActive == false" />
                         Inativo
                     </label>
                 </div>

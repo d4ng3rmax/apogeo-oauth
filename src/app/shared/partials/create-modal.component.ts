@@ -14,6 +14,7 @@ export class CreateModalComponent implements OnInit {
     question : Question;
     userDetails : FormGroup;
     source : LocalDataSource;
+    htmlActive : boolean = true;
     dataGrid : any;
 
     @ViewChild( 'modal' )
@@ -40,7 +41,7 @@ export class CreateModalComponent implements OnInit {
     openModal( dataGrid ) {
         this.dataGrid = dataGrid;
         this.source = dataGrid.source;
-        this.open( 'md' );
+        this.open( 'lg' );
     }
 
     onSubmit({ value }: { value: Question }) {

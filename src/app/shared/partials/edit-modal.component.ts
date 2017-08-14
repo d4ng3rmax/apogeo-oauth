@@ -51,7 +51,7 @@ export class EditModalComponent implements OnInit {
         this.dataGrid = dataGrid;
         this.data = event.data;
         this.source = dataGrid.source;
-        this.open( 'md' );
+        this.open( 'lg' );
     }
 
     onSubmit({ value }: { value: Object }) {
@@ -75,7 +75,7 @@ export class EditModalComponent implements OnInit {
             this.question.id = data.id;
             this.source.update( this.data, value );
             this.source.refresh();
-            this.dataGrid.buildAlert( 1, "Frase criada com sucesso!" );
+            this.dataGrid.buildAlert( 1, "Frase atualizada com sucesso!" );
 
         }, error => this.dataGrid.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }

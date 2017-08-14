@@ -20,6 +20,7 @@ import { SurveyComponent } from './survey/survey.component';
 import { SurveyListComponent } from './survey-list/survey-list.component';
 import { CreateModalComponent } from './shared/partials/create-modal.component';
 import { EditModalComponent } from './shared/partials/edit-modal.component';
+import { CheckboxComponent } from './shared/partials/custom-render/checkbox/checkbox.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { EditModalComponent } from './shared/partials/edit-modal.component';
         SurveyListComponent,
         CreateModalComponent,
         EditModalComponent,
-        PersistNavigationComponent
+        PersistNavigationComponent,
+        CheckboxComponent
     ],
     imports: [
         BrowserModule,
@@ -48,6 +50,7 @@ import { EditModalComponent } from './shared/partials/edit-modal.component';
         Ng2Bs3ModalModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [CheckboxComponent]
 })
 export class AppModule { }

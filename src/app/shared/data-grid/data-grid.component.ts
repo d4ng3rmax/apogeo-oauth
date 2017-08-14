@@ -5,6 +5,7 @@ import { QuestionService } from './../question.service';
 import { CreateModalComponent } from './../partials/create-modal.component';
 import { EditModalComponent } from './../partials/edit-modal.component';
 import { LocalDataSource } from 'ng2-smart-table';
+import { CheckboxComponent } from './../partials/custom-render/checkbox/checkbox.component';
 import { Alert } from './../models/alert.model';
 
 @Component({
@@ -71,100 +72,86 @@ export class DataGridComponent implements OnInit {
             question: {
                 title: 'Frases',
                 editor: {
-                    type : 'textarea' },
-                    width: "70%",
-                    filter: false
+                    type : 'textarea' 
                 },
-                active: {
-                    title: 'Ativo',
-                    class: 'xxxx',
-                    editor: {
-                        type: 'list',
-                        config: {
-                            list: [
-                                { title: 'Ativo', value: true },
-                                { title: 'Desativado', value: false }
-                            ]
-                        }
-                    },
-                    filter: {
-                        type: 'checkbox',
-                        config: {
-                            true: 'true',
-                            false: 'false',
-                            resetText: 'Limpar',
-                        },
-                    },
-                }
+                width: "70%",
+                filter: false
             },
-        };
-
-        onSearch( query: string = '', active ) {
-
-            if ( query == '' ) {
-                this.source.reset();
-                return;
+            active: {
+                title: 'Ativo',
+                type: 'custom',
+                renderComponent: CheckboxComponent,
+                filter: false
             }
+        },
+    };
 
-            this.source.setFilter([
-                {
-                    field: 'question',
-                    search: query
-                },
-                {
-                    field: 'active',
-                    search: active
-                }
-            ], true);
-        }
+    onSearch( query: string = '', active ) {
 
-        clearFilter =(): void => {
+        if ( query == '' ) {
             this.source.reset();
+            return;
         }
 
-        onCreate( event: any ) {
-            this.modalHtml.openModal( this);
-        }
-
-        onSave( event: any ) {
-            this.modalHtmlEdit.openModal( this, event);
-        }
-
-        onDeleteConfirm ( event ) {
-            
-            if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
-
-                this.service.deleteData( event.data['id'] )
-                    .then( data => {
-                        this.source.remove( event.data );
-                        this.buildAlert( 1, "Frase excluida com sucesso!" );
-                    }, error => {
-                        this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
-                    });
-            } else {
-                return false;
+        this.source.setFilter([
+            {
+                field: 'question',
+                search: query
+            },
+            {
+                field: 'active',
+                search: active
             }
-        }
+        ], true);
+    }
 
-        private buildAlert =( type : number, msg : string ) : void => {
-            if ( type == 1 ) {
-                this.alert.type = 1;
-                this.alert.title = "";
-                this.alert.message = msg;
-                this.alert.cssClass = "alert-success";
-                this.alert.status = true;
-            } else {
-                this.alert.type = 0;
-                this.alert.title = "Opz! "
-                this.alert.message = msg;
-                this.alert.cssClass = "alert-danger";
-                this.alert.status = true;
-                console.error( msg );
-            }
+    clearFilter =(): void => {
+        this.source.reset();
+    }
 
-            setTimeout( ()=> {
-                this.alert.status = false;
-                console.clear();
-            }, 15000);
+    onCreate( event: any ) {
+        this.modalHtml.openModal( this);
+    }
+
+    onSave( event: any ) {
+        this.modalHtmlEdit.openModal( this, event);
+    }
+
+    onDeleteConfirm ( event ) {
+        
+        if ( window.confirm( 'Deseja mesmo excluir essa frase?' ) ) {
+
+            this.service.deleteData( event.data['id'] )
+                .then( data => {
+                    this.source.remove( event.data );
+                    this.buildAlert( 1, "Frase excluida com sucesso!" );
+                }, error => {
+                    this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
+                });
+        } else {
+            return false;
         }
     }
+
+    private buildAlert =( type : number, msg : string ) : void => {
+        if ( type == 1 ) {
+            this.alert.type = 1;
+            this.alert.title = "";
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-success";
+            this.alert.status = true;
+        } else {
+            this.alert.type = 0;
+            this.alert.title = "Opz! "
+            this.alert.message = msg;
+            this.alert.cssClass = "alert-danger";
+            this.alert.status = true;
+            console.error( msg );
+        }
+
+        setTimeout( ()=> {
+            this.alert.status = false;
+            console.clear();
+        }, 15000);
+    }
+}
