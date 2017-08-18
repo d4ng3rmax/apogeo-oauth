@@ -133,8 +133,9 @@ export class PageComponent implements OnInit {
     }
 
     selectedOnThisPage =( all ) : void => {
-        for ( let i = 0; i < all.length; i++ ) {
-            for ( let prop in this.pageItems.questionOrder ) {
+        
+        for ( let prop in this.pageItems.questionOrder ) {
+            for ( let i = 0; i < all.length; i++ ) {
                 if ( all[ i ].id == this.pageItems.questionOrder[ prop ].id ) {
                     this.selectedItems.push( all[ i ] );
                 }

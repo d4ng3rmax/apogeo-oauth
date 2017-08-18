@@ -134,8 +134,8 @@ export class SurveyComponent implements OnInit {
     }
 
     selectedOnThisSurvey =( all ) : void => {
-        for ( let i = 0; i < all.length; i++ ) {
-            for ( let prop in this.surveyItems.pageOrder ) {
+        for ( let prop in this.surveyItems.pageOrder ) {
+            for ( let i = 0; i < all.length; i++ ) {
                 if ( all[ i ].id == this.surveyItems.pageOrder[ prop ].id ) {
                     this.selectedItems.push( all[ i ] );
                 }
