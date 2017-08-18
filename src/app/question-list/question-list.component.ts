@@ -11,17 +11,19 @@ export class QuestionListComponent implements OnInit {
 
     @ViewChild( DataGridComponent ) dataGrid : DataGridComponent;
 
-    active : boolean;
     menuEnabled : boolean = true;
 
-    constructor() {
-        this.active = true;
-    }
+    constructor() { }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     public onSearch =( value ) : void => {
-        this.dataGrid.onSearch( value, this.active );
+        this.dataGrid.onSearch( value, this.dataGrid.statusActive );
+    }
+
+    public searchByStatus =( value, status ) : void => {
+        this.dataGrid.statusActive = status;
+        this.dataGrid.onSearch( value, this.dataGrid.statusActive );
     }
 
     public clearFilter =( search ) : void => {

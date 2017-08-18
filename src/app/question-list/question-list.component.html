@@ -15,12 +15,12 @@
                     <label for="xxx">Por status:</label>
                     <div class="form-check">
                         <label class="form-check-label mg-right">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" [(ngModel)]="active" (click)="active = true; onSearch( search.value )" [checked]="active == true" />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" (click)="searchByStatus( search.value, true )" />
                             Ativo
                         </label>
                         
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" [(ngModel)]="active" (click)="active = false; onSearch( search.value )" [checked]="active == false" />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" (click)="searchByStatus( search.value, false )" />
                             Inativo
                         </label>
                     </div>

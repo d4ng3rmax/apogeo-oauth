@@ -14,7 +14,7 @@ export class CreateModalComponent implements OnInit {
     question : Question;
     userDetails : FormGroup;
     source : LocalDataSource;
-    htmlActive : boolean = true;
+    htmlActive : boolean;
     dataGrid : any;
 
     @ViewChild( 'modal' )
@@ -26,6 +26,7 @@ export class CreateModalComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.htmlActive = true;
         this.question = new Question( 1, "", true );
 
         this.userDetails = this.fb.group({
@@ -36,6 +37,7 @@ export class CreateModalComponent implements OnInit {
 
     open( size: string ) {
         this.modal.open( size );
+        this.htmlActive = true;
     }
 
     openModal( dataGrid ) {
@@ -45,11 +47,15 @@ export class CreateModalComponent implements OnInit {
     }
 
     onSubmit({ value }: { value: Question }) {
-        this.question = new Question( null, value[ 'pergunta' ], true );
+        this.question = new Question( null, value[ 'pergunta' ], value[ 'active' ] );
         this.add( this.question );
 
         this.modal.close();
         this.userDetails.setValue({ pergunta : "", active: true });
+    }
+
+    saveStatus =( status ) : void => {
+        console.info( status );
     }
 
     add( value: Question ): void {
@@ -69,7 +75,12 @@ export class CreateModalComponent implements OnInit {
             }, error => this.dataGrid.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
 
+    onDismiss(event) {
+        console.info( "fechou33" );
+    }
+
     close() {
         this.modal.close();
+        this.userDetails.setValue({ pergunta : "", active: true });
     }
 }

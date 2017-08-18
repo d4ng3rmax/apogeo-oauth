@@ -6,6 +6,7 @@ import { CreateModalComponent } from './../partials/create-modal.component';
 import { EditModalComponent } from './../partials/edit-modal.component';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CheckboxComponent } from './../partials/custom-render/checkbox/checkbox.component';
+import { Question } from './../models/question.model';
 import { Alert } from './../models/alert.model';
 
 @Component({
@@ -27,12 +28,14 @@ export class DataGridComponent implements OnInit {
 
     source : LocalDataSource;
     alert : Alert;
+    statusActive : boolean = null;
 
     constructor(
         public http: Http,
         private service : QuestionService
     ) {
         this.alert = new Alert( 0, "Title", "Message", "cssClass", false );
+        
     }
 
     async ngOnInit() {
@@ -47,6 +50,7 @@ export class DataGridComponent implements OnInit {
 
     settings = {
         mode: 'external',
+        xxx: this.source,
         add: {
             type:'html',
             confirmCreate: true,
@@ -81,41 +85,72 @@ export class DataGridComponent implements OnInit {
                 title: 'Ativo',
                 type: 'custom',
                 renderComponent: CheckboxComponent,
+                onComponentInitFunction: (instance: any) => {
+                    instance.saveStatus = this.saveStatus;
+                },
                 filter: false
             }
-        },
+        }
     };
 
     onSearch( query: string = '', active ) {
 
-        if ( query == '' ) {
-            this.source.reset();
-            return;
-        }
+        if ( query != '' && active != null ) {
+            this.source.setFilter([
+                {
+                    field: 'question',
+                    search: query
+                },
+                {
+                    field: 'active',
+                    search: active.toString()
+                }
+            ], true);
 
-        this.source.setFilter([
-            {
-                field: 'question',
-                search: query
-            },
-            {
-                field: 'active',
-                search: active
-            }
-        ], true);
+        } else if ( query == '' && active != null ) {
+
+            this.source.reset();
+            this.source.setFilter([
+                {
+                    field: 'active',
+                    search: active.toString()
+                }
+            ], true);
+
+        } else if ( active == null ) {
+
+            this.source.setFilter([
+                {
+                    field: 'question',
+                    search: query
+                }
+            ], true);
+        }
     }
 
     clearFilter =(): void => {
         this.source.reset();
+        this.statusActive = null;
     }
 
     onCreate( event: any ) {
-        this.modalHtml.openModal( this);
+        this.modalHtml.openModal( this );
     }
 
     onSave( event: any ) {
-        this.modalHtmlEdit.openModal( this, event);
+        this.modalHtmlEdit.openModal( this, event );
     }
+
+    saveStatus =( id, question, value ) : void => {
+
+        let newQ = new Question( id, question, !value );
+
+        this.service.updateData( id, newQ )
+        .then( data => {
+            this.buildAlert( 1, "Frase atualizada com sucesso!" );
+
+        }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+    };
 
     onDeleteConfirm ( event ) {
         
@@ -151,7 +186,7 @@ export class DataGridComponent implements OnInit {
 
         setTimeout( ()=> {
             this.alert.status = false;
-            console.clear();
+            //console.clear();
         }, 15000);
     }
 }
