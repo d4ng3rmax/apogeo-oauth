@@ -25,6 +25,17 @@
                         </label>
                     </div>
                     <br />
+                    <div class="form-group">
+                        <label for="exampleSelect1">Questionários por página:</label>
+                        <select #perPage (change)="setPerPage( perPage.value )" class="form-control" id="exampleSelect1" style="width: 100px">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <br />
                     <div class="d-flex justify-content-center">
                         <button (click)="clearFilter( frmPages )" class="btn btn-default">Limpar</button>
                         <button (click)="onSearch(search.value)" class="btn btn-success mg-left">Filtrar</button>

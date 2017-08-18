@@ -17,6 +17,7 @@ export class PageListComponent implements OnInit {
     constructor() {
         this.active = true;
     }
+
     ngOnInit() {}
 
     public onSearch = ( value ) : void => {
@@ -30,6 +31,10 @@ export class PageListComponent implements OnInit {
 
     public closeAlert =() : void => {
         this.dataGrid.alert.status = false;
+    }
+
+    public setPerPage =( items : number ) : void => {
+        this.dataGrid.changePerPage( items );
     }
 
 }

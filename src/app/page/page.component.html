@@ -3,7 +3,7 @@
 <section>
     <div class="container-fluid">
 
-        <persist-navigation (save)="save($event)" (update)="update($event)" [listPath]="listPath" [urlId]="urlId"></persist-navigation>
+        <persist-navigation (save)="save($event)" (update)="update($event)" (deleteOne)="delete($event)" [listPath]="listPath" [urlId]="urlId"></persist-navigation>
         <div class="row">
             <div class="col-12">
                 <div class="alert {{ alert.cssClass }} alert-dismissible fade show" role="alert" *ngIf="alert.status">
@@ -19,6 +19,20 @@
             <div class="col-12 col-md-3 form-group">
                 <label for="txt-nome">Nome da página:</label>
                 <input type="text" id="txt-nome" class="form-control" [value]="pageTitle" [(ngModel)]="pageTitle" />
+            </div>
+            <div class="col-12 col-md-3 offset-md-3">
+                <label for="xxx">Status:</label>
+                <div class="form-check">
+                    <label class="form-check-label mg-right">
+                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" (click)="setStatus( true )" [checked]="pageActive == true" />
+                        Ativo
+                    </label>
+
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" (click)="setStatus( false )" [checked]="pageActive == false" />
+                        Inativo
+                    </label>
+                </div>
             </div>
         </div>
 

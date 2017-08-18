@@ -19,6 +19,7 @@ export class SurveyComponent implements OnInit {
     listPath : string = "/survey/list";
     urlId : number;
     surveyTitle: string;
+    surveyActive : boolean;
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     surveyItems : Survey;
@@ -45,8 +46,10 @@ export class SurveyComponent implements OnInit {
             this.selectedOnThisSurvey( avaliableItemsAll );
             this.avaliableOnThisSurvey( avaliableItemsAll );
             this.surveyTitle = serverSurveyItems.title;
+            this.surveyActive = serverSurveyItems.active;
         } else {
             this.surveyTitle = "";
+            this.surveyActive = true;
             this.avaliableItems = avaliableItemsAll;
         }
     }
@@ -167,6 +170,28 @@ export class SurveyComponent implements OnInit {
                 this.buildAlert( 1, "Questionário atualizado com sucesso!" );
 
             }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+    }
+
+    delete =( event ) => {
+        if ( window.confirm( 'Deseja mesmo excluir esse questionário?' ) ) {
+            this.service.deleteData( this.urlId )
+                .then( data => {
+                    this.buildAlert( 1, "Pergunta excluida com sucesso!" );
+
+                    setTimeout( ()=> {
+                        this.router.navigate( ['/survey/list' ] );
+                    }, 2000);
+                }, error => {
+                    this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
+                });
+                
+        } else {
+            return;
+        }
+    }
+
+    setStatus = ( status : boolean ) : void => {
+        this.surveyActive = status;
     }
 
     private buildAlert =( type : number, msg : string ) : void => {

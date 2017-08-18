@@ -19,6 +19,7 @@ export class PageComponent implements OnInit {
     listPath : string = "/page/list";
     urlId : number;
     pageTitle: string;
+    pageActive : boolean;
     avaliableItems : Array<any> = [];
     selectedItems : Array<any> = [];
     pageItems : Page;
@@ -44,8 +45,10 @@ export class PageComponent implements OnInit {
             this.selectedOnThisPage( avaliableItemsAll );
             this.avaliableOnThisPage( avaliableItemsAll );
             this.pageTitle = serverPageItems.title;
+            this.pageActive = serverPageItems.active;
         } else {
             this.pageTitle = "";
+            this.pageActive = true;
             this.avaliableItems = avaliableItemsAll;
         }
     }
@@ -140,7 +143,7 @@ export class PageComponent implements OnInit {
     }
 
     populatedPage =() : Page => {
-        let qo = new Page( 1, this.pageTitle, {}, true );
+        let qo = new Page( 1, this.pageTitle, {}, this.pageActive );
 
         for ( let i = 0; i < this.selectedItems.length; i++ ) {
             qo.questionOrder[ i + 1 ] = { "id" : this.selectedItems[ i ].id }
@@ -166,6 +169,28 @@ export class PageComponent implements OnInit {
                 this.buildAlert( 1, "Página atualizada com sucesso!" );
 
             }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+    }
+
+    delete =( event ) => {
+        if ( window.confirm( 'Deseja mesmo excluir essa pergunta?' ) ) {
+            this.service.deleteData( this.urlId )
+                .then( data => {
+                    this.buildAlert( 1, "Pergunta excluida com sucesso!" );
+
+                    setTimeout( ()=> {
+                        this.router.navigate( ['/page/list' ] );
+                    }, 2000);
+                }, error => {
+                    this.buildAlert( 0, JSON.parse( error._body ).errorMessage );
+                });
+                
+        } else {
+            return;
+        }
+    }
+
+    setStatus = ( status : boolean ) : void => {
+        this.pageActive = status;
     }
 
     private buildAlert =( type : number, msg : string ) : void => {

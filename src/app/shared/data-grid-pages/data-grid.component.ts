@@ -3,6 +3,8 @@ import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { PageService } from './../page.service';
 import { LocalDataSource } from 'ng2-smart-table';
+import { CheckboxComponent } from './../partials/custom-render/checkbox/checkbox.component';
+import { Page } from './../models/page.model';
 import { Alert } from './../models/alert.model';
 
 @Component({
@@ -68,6 +70,11 @@ export class DataGridPagesComponent implements OnInit {
             },
             active: {
                 title: 'Ativo',
+                type: 'custom',
+                renderComponent: CheckboxComponent,
+                onComponentInitFunction: (instance: any) => {
+                    instance.saveStatus = this.saveStatus;
+                },
                 filter: false
             }
         }
@@ -75,6 +82,11 @@ export class DataGridPagesComponent implements OnInit {
 
     onCreate() {
         this.router.navigate( ['/page' ] );
+    }
+
+    changePerPage =( value : number ) : void => {
+        this.source.setPaging(1, value, false);
+        this.source.refresh();
     }
     
     onSearch( query: string = '', active ) {
@@ -120,6 +132,16 @@ export class DataGridPagesComponent implements OnInit {
         this.router.navigate( ['/page', event.data.id ] );
     }
 
+    saveStatus =( rowData ) : void => {
+        let newP = new Page( rowData.id, rowData.title, null, !rowData.active );
+
+        this.service.updateData( rowData.id, newP )
+        .then( data => {
+            this.buildAlert( 1, "Frase atualizada com sucesso!" );
+
+        }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+    };
+
     private buildAlert =( type : number, msg : string ) : void => {
         if ( type == 1 ) {
             this.alert.type = 1;
@@ -129,7 +151,7 @@ export class DataGridPagesComponent implements OnInit {
             this.alert.status = true;
         } else {
             this.alert.type = 0;
-            this.alert.title = "Opz! "
+            this.alert.title = ""
             this.alert.message = msg;
             this.alert.cssClass = "alert-danger";
             this.alert.status = true;
@@ -137,7 +159,7 @@ export class DataGridPagesComponent implements OnInit {
         }
 
         setTimeout( ()=> {
-            this.alert.status = false;
+            //this.alert.status = false;
             console.clear();
         }, 15000);
     }

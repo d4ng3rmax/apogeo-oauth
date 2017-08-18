@@ -28,6 +28,7 @@ export class CreateModalComponent implements OnInit {
     ngOnInit(): void {
         this.htmlActive = true;
         this.question = new Question( 1, "", true );
+        this.dataGrid = { alert : { status: null, cssClass : null } };
 
         this.userDetails = this.fb.group({
             pergunta: '',
@@ -35,9 +36,13 @@ export class CreateModalComponent implements OnInit {
         });
     }
 
+    getInstance =( instance ) : any => {
+        this.dataGrid = instance;
+    }
+
     open( size: string ) {
-        this.modal.open( size );
         this.htmlActive = true;
+        this.modal.open( size );
     }
 
     openModal( dataGrid ) {
@@ -47,6 +52,10 @@ export class CreateModalComponent implements OnInit {
     }
 
     onSubmit({ value }: { value: Question }) {
+        if ( value[ 'pergunta' ] == "" ) {
+            this.dataGrid.buildAlert( 0, "O campo Frase requer ao menos 5 caracteres" );
+            return;
+        }
         this.question = new Question( null, value[ 'pergunta' ], value[ 'active' ] );
         this.add( this.question );
 
@@ -70,7 +79,7 @@ export class CreateModalComponent implements OnInit {
                 this.question.id = data.id;
                 this.source.add( this.question );
                 this.source.refresh();
-                this.dataGrid.buildAlert( 1, "Frase criada com sucesso!" );
+                this.dataGrid.buildAlert( 1, "Frase salva com sucesso!" );
 
             }, error => this.dataGrid.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }

@@ -10,12 +10,13 @@ import { SurveyComponent } from './survey/survey.component';
 const routes: Routes = [
     {
         path: '',
+        redirectTo: '/question/list',
+        pathMatch: 'full'
+    },
+    {
+        path: '',
         component: AppComponent,
         children: [
-            {
-                path: '',
-                component: QuestionListComponent
-            },
             {
                 path: 'question/list',
                 component: QuestionListComponent,

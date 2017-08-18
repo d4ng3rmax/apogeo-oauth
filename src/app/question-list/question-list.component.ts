@@ -35,4 +35,8 @@ export class QuestionListComponent implements OnInit {
         this.dataGrid.alert.status = false;
     }
 
+    public setPerPage =( items : number ) : void => {
+        this.dataGrid.changePerPage( items );
+    }
+
 }

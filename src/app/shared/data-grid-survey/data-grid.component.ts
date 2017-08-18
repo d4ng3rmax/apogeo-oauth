@@ -3,6 +3,8 @@ import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { SurveyService } from './../survey.service';
 import { LocalDataSource } from 'ng2-smart-table';
+import { CheckboxComponent } from './../partials/custom-render/checkbox/checkbox.component';
+import { Survey } from './../models/survey.model';
 import { Alert } from './../models/alert.model';
 
 @Component({
@@ -68,10 +70,20 @@ export class DataGridSurveyComponent implements OnInit {
             },
             active: {
                 title: 'Ativo',
+                type: 'custom',
+                renderComponent: CheckboxComponent,
+                onComponentInitFunction: (instance: any) => {
+                    instance.saveStatus = this.saveStatus;
+                },
                 filter: false
             }
         }
     };
+
+    changePerPage =( value : number ) : void => {
+        this.source.setPaging(1, value, false);
+        this.source.refresh();
+    }
 
     onCreate() {
         this.router.navigate( ['/survey' ] );
@@ -119,6 +131,16 @@ export class DataGridSurveyComponent implements OnInit {
         this.router.navigate( ['/survey', event.data.id ] );
     }
 
+    saveStatus =( rowData ) : void => {
+        let newS = new Survey( rowData.id, rowData.title, null, !rowData.active );
+        console.info( newS );
+        this.service.updateData( rowData.id, newS )
+        .then( data => {
+            this.buildAlert( 1, "Frase atualizada com sucesso!" );
+
+        }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+    };
+
     private buildAlert =( type : number, msg : string ) : void => {
         if ( type == 1 ) {
             this.alert.type = 1;
@@ -128,7 +150,7 @@ export class DataGridSurveyComponent implements OnInit {
             this.alert.status = true;
         } else {
             this.alert.type = 0;
-            this.alert.title = "Opz! "
+            this.alert.title = ""
             this.alert.message = msg;
             this.alert.cssClass = "alert-danger";
             this.alert.status = true;
@@ -136,7 +158,7 @@ export class DataGridSurveyComponent implements OnInit {
         }
 
         setTimeout( ()=> {
-            this.alert.status = false;
+            //this.alert.status = false;
             console.clear();
         }, 15000);
     }

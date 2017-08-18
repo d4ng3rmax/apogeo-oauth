@@ -9,7 +9,7 @@ import { Ng2SmartTableModule, ViewCell, LocalDataSource } from 'ng2-smart-table'
             name="checkbox{{ rowData.id }}" 
             id="checkbox{{ rowData.id }}" 
             class="ios-toggle" 
-            (click)="saveStatus( rowData.id, rowData.question, rowData.active )" 
+            (click)="saveStatus( rowData )" 
             [checked]="rowData.active" />
             <label for="checkbox{{ rowData.id }}" class="checkbox-label" data-off="Desativado" data-on="Ativo"></label>
         </div>

@@ -35,7 +35,6 @@ export class DataGridComponent implements OnInit {
         private service : QuestionService
     ) {
         this.alert = new Alert( 0, "Title", "Message", "cssClass", false );
-        
     }
 
     async ngOnInit() {
@@ -50,7 +49,9 @@ export class DataGridComponent implements OnInit {
 
     settings = {
         mode: 'external',
-        xxx: this.source,
+        pager : {
+            perPage: 10
+        },
         add: {
             type:'html',
             confirmCreate: true,
@@ -93,6 +94,11 @@ export class DataGridComponent implements OnInit {
         }
     };
 
+    changePerPage =( value : number ) : void => {
+        this.source.setPaging(1, value, false);
+        this.source.refresh();
+    }
+
     onSearch( query: string = '', active ) {
 
         if ( query != '' && active != null ) {
@@ -128,9 +134,14 @@ export class DataGridComponent implements OnInit {
         }
     }
 
-    clearFilter =(): void => {
+    clearFilter =() : void => {
         this.source.reset();
         this.statusActive = null;
+        this.source.refresh();
+    }
+
+    sendInstance =() : void => {
+        this.modalHtml.getInstance( this );
     }
 
     onCreate( event: any ) {
@@ -141,11 +152,11 @@ export class DataGridComponent implements OnInit {
         this.modalHtmlEdit.openModal( this, event );
     }
 
-    saveStatus =( id, question, value ) : void => {
+    saveStatus =( rowData ) : void => {
 
-        let newQ = new Question( id, question, !value );
+        let newQ = new Question( rowData.id, rowData.question, !rowData.active );
 
-        this.service.updateData( id, newQ )
+        this.service.updateData( rowData.id, newQ )
         .then( data => {
             this.buildAlert( 1, "Frase atualizada com sucesso!" );
 
@@ -177,7 +188,7 @@ export class DataGridComponent implements OnInit {
             this.alert.status = true;
         } else {
             this.alert.type = 0;
-            this.alert.title = "Opz! "
+            this.alert.title = ""
             this.alert.message = msg;
             this.alert.cssClass = "alert-danger";
             this.alert.status = true;
@@ -185,8 +196,8 @@ export class DataGridComponent implements OnInit {
         }
 
         setTimeout( ()=> {
-            this.alert.status = false;
-            //console.clear();
+            //this.alert.status = false;
+            console.clear();
         }, 15000);
     }
 }

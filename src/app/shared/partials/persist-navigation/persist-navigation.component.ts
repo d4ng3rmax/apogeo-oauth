@@ -12,6 +12,7 @@ export class PersistNavigationComponent implements OnInit {
 
     @Output() save : EventEmitter<any> = new EventEmitter();
     @Output() update : EventEmitter<any> = new EventEmitter();
+    @Output() deleteOne : EventEmitter<any> = new EventEmitter();
 
     constructor() { }
 
@@ -25,5 +26,8 @@ export class PersistNavigationComponent implements OnInit {
     onUpdate =() : void => {
         this.update.emit();
     }
-
+    
+    onDelete =() : void => {
+        this.deleteOne.emit();
+    }
 }

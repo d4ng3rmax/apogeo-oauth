@@ -3,6 +3,13 @@
         <h4 class="flex-first">Preencha os campos abaixo:</h4>
     </modal-header>
     <modal-body>
+        <div class="alert {{ dataGrid.alert.cssClass }} alert-dismissible fade show" role="alert" *ngIf="dataGrid.alert.status">
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(); false;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span [innerHTML]="dataGrid.alert.title"></span>{{ dataGrid.alert.message }} 
+        </div>
+        
         <form novalidate [formGroup]="userDetails" (ngSubmit)="onSubmit(userDetails)">
             <div class="form-group">
                 <label for="pergunta">Frase:</label>
