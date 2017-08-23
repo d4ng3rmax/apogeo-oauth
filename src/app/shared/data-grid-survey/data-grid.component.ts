@@ -157,7 +157,7 @@ export class DataGridSurveyComponent implements OnInit {
 
         this.buildAlert( 0, "Operação não permitida! Você precisa ativar um outro questionário para desativar esse." );
             
-        if ( rowData.active != true ) {
+        if ( rowData.active === false ) {
 
             if ( window.confirm( 'Apenas um questionário pode estar ativo ao mesmo tempo. Ao ativar este questionário, o anterior será inativado. Deseja continuar?' ) ) {
 
