@@ -15,7 +15,7 @@ export class EditModalComponent implements OnInit {
     userDetails: FormGroup;
     source: LocalDataSource;
     dataGrid : any;
-    htmlActive : boolean;
+    htmlActive : any;
     data: any;
 
     @ViewChild( 'modal' )

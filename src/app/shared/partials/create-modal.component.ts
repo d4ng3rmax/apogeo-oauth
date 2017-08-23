@@ -14,7 +14,7 @@ export class CreateModalComponent implements OnInit {
     question : Question;
     userDetails : FormGroup;
     source : LocalDataSource;
-    htmlActive : boolean;
+    htmlActive : any = true;
     dataGrid : any;
 
     @ViewChild( 'modal' )
@@ -26,13 +26,12 @@ export class CreateModalComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.htmlActive = true;
         this.question = new Question( 1, "", true );
         this.dataGrid = { alert : { status: null, cssClass : null } };
 
         this.userDetails = this.fb.group({
             pergunta: '',
-            active: true
+            active: "true"
         });
     }
 
@@ -41,7 +40,7 @@ export class CreateModalComponent implements OnInit {
     }
 
     open( size: string ) {
-        this.htmlActive = true;
+        this.htmlActive = "true";
         this.modal.open( size );
     }
 
@@ -56,11 +55,21 @@ export class CreateModalComponent implements OnInit {
             this.dataGrid.buildAlert( 0, "O campo Frase requer ao menos 5 caracteres" );
             return;
         }
-        this.question = new Question( null, value[ 'pergunta' ], value[ 'active' ] );
+
+        let myActive;
+
+        if( value[ 'active' ] == "true" ) {
+            myActive = true;
+        } else {
+            myActive = false;
+        }
+        
+        this.question = new Question( null, value[ 'pergunta' ], myActive );
         this.add( this.question );
 
+        console.info( this.question  );
+
         this.modal.close();
-        this.userDetails.setValue({ pergunta : "", active: true });
     }
 
     add( value: Question ): void {
@@ -78,11 +87,13 @@ export class CreateModalComponent implements OnInit {
                 this.dataGrid.buildAlert( 1, "Frase salva com sucesso!" );
 
             }, error => this.dataGrid.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+
+        this.userDetails.setValue({ pergunta : "", active: "true" });
     }
 
     close() {
         this.modal.close();
-        this.userDetails.setValue({ pergunta : "", active: true });
+        this.userDetails.setValue({ pergunta : "", active: "true" });
         this.dataGrid.alert.status = false;
     }
 }

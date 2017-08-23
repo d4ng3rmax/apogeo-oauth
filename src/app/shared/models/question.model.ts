@@ -1,11 +1,11 @@
 export class Question {
     id : number;
     question : string;
-    active : boolean;
+    active : any;
 
-    constructor( id : number, question : string, active? : boolean ) {
+    constructor( id : number, question : string, active? : any ) {
         this.id = id;
         this.question = question;
-        this.active = active || false;
+        this.active = active;
     }
 }

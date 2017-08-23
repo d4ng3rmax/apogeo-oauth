@@ -145,6 +145,7 @@ export class DataGridComponent implements OnInit {
     }
 
     onCreate( event: any ) {
+        this.alert.status = false;
         this.modalHtml.openModal( this );
     }
 
@@ -198,6 +199,6 @@ export class DataGridComponent implements OnInit {
         setTimeout( ()=> {
             //this.alert.status = false;
             console.clear();
-        }, 15000);
+        }, 25000);
     }
 }
