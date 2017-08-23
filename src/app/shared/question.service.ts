@@ -26,6 +26,13 @@ export class QuestionService {
         return response.json();
     }
 
+    async getActiveResult() : Promise<any> {
+        
+        const response = await this.http.get( `${ this.apiRoot }/active` )
+            .toPromise()
+        return response.json();
+    }
+
     async getSingleResult( id ) : Promise<any> {
 
         const response = await this.http.get( `${ this.apiRoot }/${ id }` )

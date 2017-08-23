@@ -38,7 +38,7 @@ export class SurveyComponent implements OnInit {
 
     async ngOnInit() {
 
-        let avaliableItemsAll = await this.pagesListService.getResult();
+        let avaliableItemsAll = await this.pagesListService.getActiveResult();
 
         if ( this.urlId ) {
             let serverSurveyItems = await this.service.getSingleResult( this.urlId );
@@ -167,7 +167,11 @@ export class SurveyComponent implements OnInit {
     update =( event ) : void => {
         this.service.updateData( this.urlId, this.populatedSurvey() )
             .then( data => {
-                this.buildAlert( 1, "Questionário atualizado com sucesso!" );
+                this.buildAlert( 1, "Questionário salvo com sucesso!" );
+
+                setTimeout( ()=> {
+                    this.router.navigate( ['/survey/list' ] );
+                }, 2000);
 
             }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
@@ -176,7 +180,7 @@ export class SurveyComponent implements OnInit {
         if ( window.confirm( 'Deseja mesmo excluir esse questionário?' ) ) {
             this.service.deleteData( this.urlId )
                 .then( data => {
-                    this.buildAlert( 1, "Pergunta excluida com sucesso!" );
+                    this.buildAlert( 1, "Questionário excluido com sucesso!" );
 
                     setTimeout( ()=> {
                         this.router.navigate( ['/survey/list' ] );
@@ -203,7 +207,7 @@ export class SurveyComponent implements OnInit {
             this.alert.status = true;
         } else {
             this.alert.type = 0;
-            this.alert.title = "Opz! "
+            this.alert.title = ""
             this.alert.message = msg;
             this.alert.cssClass = "alert-danger";
             this.alert.status = true;

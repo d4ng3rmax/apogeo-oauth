@@ -63,10 +63,6 @@ export class CreateModalComponent implements OnInit {
         this.userDetails.setValue({ pergunta : "", active: true });
     }
 
-    saveStatus =( status ) : void => {
-        console.info( status );
-    }
-
     add( value: Question ): void {
 
         if ( !value ) {
@@ -84,12 +80,9 @@ export class CreateModalComponent implements OnInit {
             }, error => this.dataGrid.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
 
-    onDismiss(event) {
-        console.info( "fechou33" );
-    }
-
     close() {
         this.modal.close();
         this.userDetails.setValue({ pergunta : "", active: true });
+        this.dataGrid.alert.status = false;
     }
 }

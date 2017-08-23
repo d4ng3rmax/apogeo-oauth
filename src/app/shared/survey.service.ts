@@ -48,8 +48,14 @@ export class SurveyService {
     }
 
     async deleteData( id: number ) : Promise<any> {
-
         return this.http.delete( `${ this.apiRoot + '/' + id }`, { headers: this.headers })
+            .toPromise()
+            .then( ( res ) => res.json() || {} )
+            .catch( ( error ) => Promise.reject( error.message || error ) );
+    }
+
+    async setStatus( id ) : Promise<any> {
+        return this.http.post( `${ this.apiRoot + '/' + id + '/setActive' }`, { headers: this.headers })
             .toPromise()
             .then( ( res ) => res.json() || {} )
             .catch( ( error ) => Promise.reject( error.message || error ) );

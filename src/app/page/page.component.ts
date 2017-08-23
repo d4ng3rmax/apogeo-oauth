@@ -37,7 +37,7 @@ export class PageComponent implements OnInit {
     }
 
     async ngOnInit() {
-        let avaliableItemsAll = await this.questionListService.getResult();
+        let avaliableItemsAll = await this.questionListService.getActiveResult();
 
         if ( this.urlId ) {
             let serverPageItems = await this.service.getSingleResult( this.urlId );
@@ -167,16 +167,20 @@ export class PageComponent implements OnInit {
     update =( event ) : void => {
         this.service.updateData( this.urlId, this.populatedPage() )
             .then( data => {
-                this.buildAlert( 1, "Página atualizada com sucesso!" );
+                this.buildAlert( 1, "Página salva com sucesso!" );
+
+                setTimeout( ()=> {
+                    this.router.navigate( ['/page/list' ] );
+                }, 2000);
 
             }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
     }
 
     delete =( event ) => {
-        if ( window.confirm( 'Deseja mesmo excluir essa pergunta?' ) ) {
+        if ( window.confirm( 'Deseja mesmo excluir essa página?' ) ) {
             this.service.deleteData( this.urlId )
                 .then( data => {
-                    this.buildAlert( 1, "Pergunta excluida com sucesso!" );
+                    this.buildAlert( 1, "Página excluida com sucesso!" );
 
                     setTimeout( ()=> {
                         this.router.navigate( ['/page/list' ] );
@@ -203,7 +207,7 @@ export class PageComponent implements OnInit {
             this.alert.status = true;
         } else {
             this.alert.type = 0;
-            this.alert.title = "Opz! "
+            this.alert.title = ""
             this.alert.message = msg;
             this.alert.cssClass = "alert-danger";
             this.alert.status = true;

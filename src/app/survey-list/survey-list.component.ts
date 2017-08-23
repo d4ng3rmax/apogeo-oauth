@@ -12,19 +12,21 @@ export class SurveyListComponent implements OnInit {
     @ViewChild( DataGridSurveyComponent ) dataGrid : DataGridSurveyComponent;
 
     menuEnabled : boolean = true;
-    active : boolean;
 
-    constructor() {
-        this.active = true;
-    }
+    constructor() { }
 
     ngOnInit() {}
 
     public onSearch = ( value ) : void => {
-        this.dataGrid.onSearch( value, this.active );
+        this.dataGrid.onSearch( value, this.dataGrid.statusActive );
     }
 
-    public clearFilter = ( search ) : void => {
+    public searchByStatus =( value, status ) : void => {
+        this.dataGrid.statusActive = status;
+        this.dataGrid.onSearch( value, this.dataGrid.statusActive );
+    }
+
+    public clearFilter =( search ) : void => {
         this.dataGrid.clearFilter();
         search.reset();
     }

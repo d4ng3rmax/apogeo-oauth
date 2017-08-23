@@ -24,6 +24,7 @@ export class DataGridSurveyComponent implements OnInit {
     
     source: LocalDataSource;
     alert : Alert;
+    statusActive : boolean = null;
     
     constructor(
         private router: Router, 
@@ -91,21 +92,37 @@ export class DataGridSurveyComponent implements OnInit {
     
     onSearch( query: string = '', active ) {
         
-        if ( query == '' ) {
+        if ( query != '' && active != null ) {
+            this.source.setFilter([
+                {
+                    field: 'title',
+                    search: query
+                },
+                {
+                    field: 'active',
+                    search: active.toString()
+                }
+            ], true);
+
+        } else if ( query == '' && active != null ) {
+
             this.source.reset();
-            return;
+            this.source.setFilter([
+                {
+                    field: 'active',
+                    search: active.toString()
+                }
+            ], true);
+
+        } else if ( active == null ) {
+
+            this.source.setFilter([
+                {
+                    field: 'title',
+                    search: query
+                }
+            ], true);
         }
-        
-        this.source.setFilter([
-            {
-                field: 'title',
-                search: query
-            },
-            {
-                field: 'active',
-                search: active
-            }
-        ], true);
     }
     
     clearFilter =(): void => {
@@ -131,14 +148,44 @@ export class DataGridSurveyComponent implements OnInit {
         this.router.navigate( ['/survey', event.data.id ] );
     }
 
-    saveStatus =( rowData ) : void => {
-        let newS = new Survey( rowData.id, rowData.title, null, !rowData.active );
-        console.info( newS );
-        this.service.updateData( rowData.id, newS )
-        .then( data => {
-            this.buildAlert( 1, "Frase atualizada com sucesso!" );
+    saveStatus =( rowData ) => {
 
-        }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+        for ( let i = 0; i < this.source['data'].length; i++ ) {
+            let newS = { id: rowData.id, active: rowData.active, title: rowData.title };
+            this.source.update( this.source['data'][ i ], this.source['data'][ i ] );
+        }
+
+        this.buildAlert( 0, "Operação não permitida! Você precisa ativar um outro questionário para desativar esse." );
+            
+        if ( rowData.active != true ) {
+
+            if ( window.confirm( 'Apenas um questionário pode estar ativo ao mesmo tempo. Ao ativar este questionário, o anterior será inativado. Deseja continuar?' ) ) {
+
+                this.service.setStatus( rowData.id )
+                    .then( data => {
+                        this.buildAlert( 1, "Questinário salvo com sucesso!" );
+                        
+
+                        for ( let i = 0; i < this.source['data'].length; i++ ) {
+                            
+                            if ( this.source['data'][ i ].id != rowData.id ) {
+                                let newS1 = { id: this.source['data'][ i ].id, active: false, title: this.source['data'][ i ].title };
+                                this.source.update( this.source['data'][ i ], newS1 );
+                            }
+                            else {
+                                let newS2 = { id: rowData.id, active: true, title: rowData.title };
+                                this.source.update( this.source['data'][ i ], newS2 );
+                            }
+                        }
+                        this.source.reset();
+                        this.source.refresh();
+                        
+                    }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
+
+            } else {
+                return false;
+            }
+        }
     };
 
     private buildAlert =( type : number, msg : string ) : void => {

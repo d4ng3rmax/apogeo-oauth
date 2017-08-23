@@ -26,6 +26,13 @@ export class PageService {
         return response.json();
     }
 
+    async getActiveResult() : Promise<any> {
+        
+        const response = await this.http.get( `${ this.apiRoot }/active` )
+            .toPromise()
+        return response.json();
+    }
+
     async getSingleResult( id ) : Promise<any> {
 
         const response = await this.http.get( `${ this.apiRoot }/${ id }` )
@@ -48,8 +55,14 @@ export class PageService {
     }
 
     async deleteData( id: number ) : Promise<any> {
-
         return this.http.delete( `${ this.apiRoot + '/' + id }`, { headers: this.headers })
+            .toPromise()
+            .then( ( res ) => res.json() || {} )
+            .catch( ( error ) => Promise.reject( error.message || error ) );
+    }
+
+    async setStatus( obj ) : Promise<any> {
+        return this.http.post( `${ this.apiRoot + '/' + obj.id + '/setActive' }`, JSON.stringify( obj ), { headers: this.headers })
             .toPromise()
             .then( ( res ) => res.json() || {} )
             .catch( ( error ) => Promise.reject( error.message || error ) );

@@ -15,7 +15,7 @@ export class QuestionListComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit() { }
+    ngOnInit() {}
 
     public onSearch =( value ) : void => {
         this.dataGrid.onSearch( value, this.dataGrid.statusActive );

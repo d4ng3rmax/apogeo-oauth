@@ -6,27 +6,27 @@
         <div class="row no-mg">
 
             <div class="col-12 col-sm-2 box-filter">
-                <h4 class="text-info">Filtro das páginas</h4>
+                <h4 class="text-info">Filtro</h4>
                 <br />
                 <form #frmPages name="frmPages">
-                    <label for="xxx">Por nome:</label>
+                    <label for="xxx">Por título:</label>
                     <input #search type="text" placeholder="Buscar por..." (keyup)="onSearch( search.value )" class="form-control" />
                     <br />
                     <label for="xxx">Por status:</label>
                     <div class="form-check">
                         <label class="form-check-label mg-right">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" checked />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="true" (click)="searchByStatus( search.value, true )" />
                             Ativo
                         </label>
 
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" />
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="false" (click)="searchByStatus( search.value, false )" />
                             Inativo
                         </label>
                     </div>
                     <br />
                     <div class="form-group">
-                        <label for="exampleSelect1">Itens por página:</label>
+                        <label for="exampleSelect1">Paginação:</label>
                         <select #perPage (change)="setPerPage( perPage.value )" class="form-control" id="exampleSelect1" style="width: 100px">
                             <option value="5">5</option>
                             <option value="10" selected>10</option>

@@ -11,20 +11,22 @@ export class PageListComponent implements OnInit {
 
     @ViewChild( DataGridPagesComponent ) dataGrid : DataGridPagesComponent;
 
-    active : boolean;
     menuEnabled : boolean = true;
 
-    constructor() {
-        this.active = true;
-    }
+    constructor() { }
 
     ngOnInit() {}
 
-    public onSearch = ( value ) : void => {
-        this.dataGrid.onSearch( value, this.active );
+    public onSearch =( value ) : void => {
+        this.dataGrid.onSearch( value, this.dataGrid.statusActive );
     }
 
-    public clearFilter = ( search ) : void => {
+    public searchByStatus =( value, status ) : void => {
+        this.dataGrid.statusActive = status;
+        this.dataGrid.onSearch( value, this.dataGrid.statusActive );
+    }
+
+    public clearFilter =( search ) : void => {
         this.dataGrid.clearFilter();
         search.reset();
     }

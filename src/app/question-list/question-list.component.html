@@ -6,7 +6,7 @@
         <div class="row no-mg">
             
             <div class="col-12 col-sm-2 box-filter">
-                <h4 class="text-info">Filtro das frases</h4>
+                <h4 class="text-info">Filtro</h4>
                 <br />
                 <form #frmQuestion name="frmQuestion">
                     <label for="xxx">Por frase:</label>
@@ -26,7 +26,7 @@
                     </div>
                     <br />
                     <div class="form-group">
-                        <label for="exampleSelect1">Frases por página:</label>
+                        <label for="exampleSelect1">Paginação:</label>
                         <select #perPage (change)="setPerPage( perPage.value )" class="form-control" id="exampleSelect1" style="width: 100px">
                             <option value="5">5</option>
                             <option value="10" selected>10</option>

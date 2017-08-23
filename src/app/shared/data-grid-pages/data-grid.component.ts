@@ -24,6 +24,7 @@ export class DataGridPagesComponent implements OnInit {
     
     source: LocalDataSource;
     alert : Alert;
+    statusActive : boolean = null;
     
     constructor(
         private router: Router, 
@@ -91,25 +92,43 @@ export class DataGridPagesComponent implements OnInit {
     
     onSearch( query: string = '', active ) {
         
-        if ( query == '' ) {
+        if ( query != '' && active != null ) {
+            this.source.setFilter([
+                {
+                    field: 'title',
+                    search: query
+                },
+                {
+                    field: 'active',
+                    search: active.toString()
+                }
+            ], true);
+
+        } else if ( query == '' && active != null ) {
+
             this.source.reset();
-            return;
+            this.source.setFilter([
+                {
+                    field: 'active',
+                    search: active.toString()
+                }
+            ], true);
+
+        } else if ( active == null ) {
+
+            this.source.setFilter([
+                {
+                    field: 'title',
+                    search: query
+                }
+            ], true);
         }
-        
-        this.source.setFilter([
-            {
-                field: 'title',
-                search: query
-            },
-            {
-                field: 'active',
-                search: active
-            }
-        ], true);
     }
     
     clearFilter =(): void => {
         this.source.reset();
+        this.statusActive = null;
+        this.source.refresh();
     }
     
     onDeleteConfirm( event ) {
@@ -133,9 +152,9 @@ export class DataGridPagesComponent implements OnInit {
     }
 
     saveStatus =( rowData ) : void => {
-        let newP = new Page( rowData.id, rowData.title, null, !rowData.active );
+        let newP = { id: rowData.id, title: rowData.title, active: !rowData.active };
 
-        this.service.updateData( rowData.id, newP )
+        this.service.setStatus( newP )
         .then( data => {
             this.buildAlert( 1, "Frase atualizada com sucesso!" );
 
