@@ -152,6 +152,7 @@ export class DataGridSurveyComponent implements OnInit {
 
         for ( let i = 0; i < this.source['data'].length; i++ ) {
             let newS = { id: rowData.id, active: rowData.active, title: rowData.title };
+            // source, new value
             this.source.update( this.source['data'][ i ], this.source['data'][ i ] );
         }
 

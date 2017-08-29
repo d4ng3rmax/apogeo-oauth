@@ -159,6 +159,8 @@ export class DataGridComponent implements OnInit {
 
         this.service.updateData( rowData.id, newQ )
         .then( data => {
+            this.source.update( rowData, newQ );
+            this.source.refresh();
             this.buildAlert( 1, "Frase atualizada com sucesso!" );
 
         }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );

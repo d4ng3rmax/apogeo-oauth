@@ -74,6 +74,7 @@ export class EditModalComponent implements OnInit {
             
             this.question.id = data.id;
             this.question.active = data.active;
+            // source, new value
             this.source.update( this.data, value );
             this.source.refresh();
             this.dataGrid.buildAlert( 1, "Frase salva com sucesso!" );

@@ -156,6 +156,8 @@ export class DataGridPagesComponent implements OnInit {
 
         this.service.setStatus( newP )
         .then( data => {
+            this.source.update( rowData, newP );
+            this.source.refresh();
             this.buildAlert( 1, "Frase atualizada com sucesso!" );
 
         }, error => this.buildAlert( 0, JSON.parse( error._body ).errorMessage ) );
