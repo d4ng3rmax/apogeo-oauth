@@ -43,7 +43,7 @@ export class EditModalComponent implements OnInit {
             active: [ this.data.active ]
         });
 
-        this.htmlActive = this.data.active;
+        this.htmlActive = (this.data.active) ? "on" : "off";
         this.modal.open( size );
     }
 
@@ -74,7 +74,6 @@ export class EditModalComponent implements OnInit {
             
             this.question.id = data.id;
             this.question.active = data.active;
-            // source, new value
             this.source.update( this.data, value );
             this.source.refresh();
             this.dataGrid.buildAlert( 1, "Frase salva com sucesso!" );
@@ -83,6 +82,6 @@ export class EditModalComponent implements OnInit {
     }
 
     close() {
-        this.modal.close();
+        this.htmlActive = "";
     }
 }

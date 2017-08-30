@@ -1,4 +1,4 @@
-<modal #modal>
+<modal #modal (onDismiss)="close(); false">
     <modal-header [show-close]="true">
         <h4 class="flex-first">Edite os campos abaixo:</h4>
     </modal-header>
@@ -12,12 +12,12 @@
 
                 <div class="form-check">
                     <label class="form-check-label mg-right">
-                        <input type="radio" class="form-check-input" formControlName="active" id="optionsRadios1" [checked]="htmlActive" />
+                        <input type="radio" formControlName="active" name="active" class="form-check-input" value="true" [checked]="htmlActive == 'on'" />
                         Ativo
                     </label>
 
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" formControlName="active" id="optionsRadios1" [checked]="!htmlActive" />
+                        <input type="radio" formControlName="active" name="active" class="form-check-input" value="false" [checked]="htmlActive == 'off'" />
                         Inativo
                     </label>
                 </div>
