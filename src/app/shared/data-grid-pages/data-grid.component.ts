@@ -56,6 +56,7 @@ export class DataGridPagesComponent implements OnInit {
             confirmDelete: true,
             deleteButtonContent: '<i class="fa fa-close"><span>Excluir</span></i>',
         },
+        noDataMessage: 'Nenhum registro encontrado',
         actions: {
             columnTitle: 'Ações',
             width: '200px'
