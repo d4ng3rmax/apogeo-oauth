@@ -1,3 +1,41 @@
 header {
-    padding: 10px 15px;
+    // padding: 10px 15px;
+    padding: 5px;
+    // padding-top: 0px;
+}
+
+// .nav-item-main > a:not(.active) {
+  // background-color: #004466;
+    // color: #00AACC;
+// }
+
+.nav-pills-main {
+  margin-top: 0px !important;
+  margin-left: 0px !important;
+}
+
+.nav-item-main > a.active {
+    background-color: #004466;
+    color: #FFFFFF;
+}
+
+.nav-item-main > .active, .nav-item-main > .active:hover {
+    background-color: #004466 !important;
+}
+
+
+// .nav-pills-secondary {
+  // margin-top: 0px !important;
+// }
+
+.nav-pills-secondary > li > a:not(.active) {
+    color: #00AACC;
+}
+
+.nav-pills-secondary > li > a.active {
+    color: #FFFFFF;
+}
+
+.nav-pills-secondary > li > .active, .nav-pills-secondary > li > .active:hover {
+    background-color: #00AACC;
 }
